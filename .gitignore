@@ -42,6 +42,7 @@ Thumbs.db
 .modman/
 app/code/community/Phoenix/
 app/code/community/Cm/
+app/code/community/Ultimate/
 app/code/core/
 app/design/adminhtml/default/default/
 app/design/frontend/base/
@@ -75,6 +76,7 @@ app/etc/modules/Mage_Widget.xml
 app/etc/modules/Mage_XmlConnect.xml
 app/etc/modules/Phoenix_Moneybookers.xml
 app/etc/modules/Cm_RedisSession.xml
+app/etc/modules/Ultimate_*
 app/etc/applied.patches.list
 app/etc/config.xml
 app/etc/enterprise.xml
@@ -95,6 +97,7 @@ includes/
 index.php.sample
 /install.php
 js/blank.html
+js/ultimate_*
 js/calendar/
 js/enterprise/
 js/extjs/
