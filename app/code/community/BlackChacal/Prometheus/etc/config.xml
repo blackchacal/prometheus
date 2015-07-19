@@ -32,8 +32,30 @@
         <models>
             <prometheus>
                 <class>BlackChacal_Prometheus_Model</class>
+                <resourceModel>blackchacal_prometheus_resource</resourceModel>
             </prometheus>
+            <blackchacal_prometheus_resource>
+                <class>BlackChacal_Prometheus_Model_Resource</class>
+                <entities>
+                    <extension>
+                        <table>prometheus_general_data</table>
+                    </extension>
+                    <config_group>
+                        <table>prometheus_config_group_data</table>
+                    </config_group>
+                    <config_option>
+                        <table>prometheus_config_options_data</table>
+                    </config_option>
+                </entities>
+            </blackchacal_prometheus_resource>
         </models>
+        <resources>
+            <prometheus_setup>
+                <setup>
+                    <module>BlackChacal_Prometheus</module>
+                </setup>
+            </prometheus_setup>
+        </resources>
         <helpers>
             <prometheus>
                 <class>BlackChacal_Prometheus_Helper</class>
