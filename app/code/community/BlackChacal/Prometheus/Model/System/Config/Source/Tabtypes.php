@@ -21,7 +21,7 @@
  * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
 
-class BlackChacal_Prometheus_Model_Source_Config_Tabtypes
+class BlackChacal_Prometheus_Model_System_Config_Source_Tabtypes
 {
     /**
      * Returns the configuration options for the

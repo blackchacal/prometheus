@@ -21,27 +21,25 @@
  * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
 
-class BlackChacal_Prometheus_Model_Source_Config_Action
+class BlackChacal_Prometheus_Model_System_Config_Source_Codepool
 {
     /**
      * Returns the configuration options for the
-     * "prometheus/default_extension/action" - "Action" select input.
+     * "prometheus/default_extension/codepool" - "Code Pool" select input.
      *
      * @access public
      * @return array Configuration Options
      */
     public function toOptionArray()
     {
-        $helper = Mage::helper('prometheus');
-
         $options = array();
         $options[] = array(
-            'value' => 'archive',
-            'label' => $helper->__('Create archive to install later.')
+            'value' => 'community',
+            'label' => 'community'
         );
         $options[] = array(
-            'value' => 'install',
-            'label' => $helper->__('Install new extension.')
+            'value' => 'local',
+            'label' => 'local'
         );
 
         return $options;
