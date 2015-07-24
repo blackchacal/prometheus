@@ -25,6 +25,6 @@ class BlackChacal_Prometheus_Model_Resource_Config_Group_Collection extends Mage
 {
     public function _construct()
     {
-        $this->_init('prometheus/config_group');
+        $this->_init('blackchacal_prometheus/config_group');
     }
 }

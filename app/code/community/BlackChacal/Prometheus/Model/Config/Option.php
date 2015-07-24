@@ -25,6 +25,6 @@ class BlackChacal_Prometheus_Model_Config_Option extends Mage_Core_Model_Abstrac
 {
     protected function _construct()
     {
-        $this->_init('prometheus/config_option');
+        $this->_init('blackchacal_prometheus/config_option');
     }
 }

@@ -25,6 +25,6 @@ class BlackChacal_Prometheus_Model_Resource_Extension_Collection extends Mage_Co
 {
     public function _construct()
     {
-        $this->_init('prometheus/extension');
+        $this->_init('blackchacal_prometheus/extension');
     }
 }

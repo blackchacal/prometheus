@@ -32,7 +32,7 @@ class BlackChacal_Prometheus_Model_System_Config_Source_Action
      */
     public function toOptionArray()
     {
-        $helper = Mage::helper('prometheus');
+        $helper = Mage::helper('blackchacal_prometheus');
 
         $options = array();
         $options[] = array(

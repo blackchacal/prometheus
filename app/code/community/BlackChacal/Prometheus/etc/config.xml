@@ -30,10 +30,10 @@
     </modules>
     <global>
         <models>
-            <prometheus>
+            <blackchacal_prometheus>
                 <class>BlackChacal_Prometheus_Model</class>
                 <resourceModel>blackchacal_prometheus_resource</resourceModel>
-            </prometheus>
+            </blackchacal_prometheus>
             <blackchacal_prometheus_resource>
                 <class>BlackChacal_Prometheus_Model_Resource</class>
                 <entities>
@@ -57,9 +57,9 @@
             </prometheus_setup>
         </resources>
         <helpers>
-            <prometheus>
+            <blackchacal_prometheus>
                 <class>BlackChacal_Prometheus_Helper</class>
-            </prometheus>
+            </blackchacal_prometheus>
         </helpers>
     </global>
     <adminhtml>
@@ -74,7 +74,7 @@
         </translate>
     </adminhtml>
     <default>
-        <prometheus>
+        <blackchacal_prometheus>
             <general>
                 <enabled>1</enabled>
                 <help>1</help>
@@ -109,6 +109,6 @@ needs please contact the author for more information.
                 <config_tab_namespace_position>500</config_tab_namespace_position>
                 <config_tab_custom_position>500</config_tab_custom_position>
             </default_extension>
-        </prometheus>
+        </blackchacal_prometheus>
     </default>
 </config>

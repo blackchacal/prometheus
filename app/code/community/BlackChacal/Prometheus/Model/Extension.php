@@ -25,6 +25,6 @@ class BlackChacal_Prometheus_Model_Extension extends Mage_Core_Model_Abstract
 {
     protected function _construct()
     {
-        $this->_init('prometheus/extension');
+        $this->_init('blackchacal_prometheus/extension');
     }
 }

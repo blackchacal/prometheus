@@ -25,6 +25,6 @@ class BlackChacal_Prometheus_Model_Config_Group extends Mage_Core_Model_Abstract
 {
     protected function _construct()
     {
-        $this->_init('prometheus/config_group');
+        $this->_init('blackchacal_prometheus/config_group');
     }
 }

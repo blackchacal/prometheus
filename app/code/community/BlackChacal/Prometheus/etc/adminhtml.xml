@@ -23,6 +23,20 @@
  */
 -->
 <config>
+    <menu>
+        <system>
+            <children>
+                <blackchacal_prometheus translate="title" module="blackchacal_prometheus">
+                    <title>Prometheus - Create Extensions</title>
+                    <sort_order>10</sort_order>
+                    <action>adminhtml/prometheus</action>
+                    <depends>
+                        <module>BlackChacal_Prometheus</module>
+                    </depends>
+                </blackchacal_prometheus>
+            </children>
+        </system>
+    </menu>
     <acl>
         <all>
             <title>Allow Everything</title>
@@ -32,11 +46,15 @@
                 <children>
                     <system>
                         <children>
+                            <blackchacal_prometheus translate="title" module="blackchacal_prometheus">
+                                <title>Prometheus - Create Extensions</title>
+                                <sort_order>10</sort_order>
+                            </blackchacal_prometheus>
                             <config>
                                 <children>
-                                    <prometheus translate="title" module="prometheus">
+                                    <blackchacal_prometheus translate="title" module="blackchacal_prometheus">
                                         <title>Prometheus Settings</title>
-                                    </prometheus>
+                                    </blackchacal_prometheus>
                                 </children>
                             </config>
                         </children>

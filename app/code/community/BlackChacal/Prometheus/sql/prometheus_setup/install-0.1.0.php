@@ -31,7 +31,7 @@ $installer->startSetup();
 
 // Create "prometheus_general_data" table associated to "Extension" model.
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('prometheus/extension'))
+    ->newTable($installer->getTable('blackchacal_prometheus/extension'))
     ->addColumn('extension_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity' => true,
         'unsigned' => true,
@@ -87,7 +87,7 @@ $installer->getConnection()->createTable($table);
 
 // Create "prometheus_config_group_data" table associated to "Config_Group" model.
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('prometheus/config_group'))
+    ->newTable($installer->getTable('blackchacal_prometheus/config_group'))
         ->addColumn('group_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
             'identity' => true,
             'unsigned' => true,
@@ -114,9 +114,9 @@ $table = $installer->getConnection()
             'nullable' => false,
         ), 'Group Scope')
         ->addForeignKey(
-            $installer->getFkName('prometheus/config_group', 'extension_id', 'prometheus/extension', 'extension_id'),
+            $installer->getFkName('blackchacal_prometheus/config_group', 'extension_id', 'blackchacal_prometheus/extension', 'extension_id'),
             'extension_id',
-            $installer->getTable('prometheus/extension'),
+            $installer->getTable('blackchacal_prometheus/extension'),
             'extension_id',
             Varien_Db_Ddl_Table::ACTION_CASCADE,
             Varien_Db_Ddl_Table::ACTION_CASCADE
@@ -125,7 +125,7 @@ $installer->getConnection()->createTable($table);
 
 // Create "prometheus_config_option_data" table associated to "Config_Option" model.
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('prometheus/config_option'))
+    ->newTable($installer->getTable('blackchacal_prometheus/config_option'))
         ->addColumn('option_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
             'identity' => true,
             'unsigned' => true,
@@ -164,9 +164,9 @@ $table = $installer->getConnection()
             'nullable' => true,
         ), 'Dependency')
         ->addForeignKey(
-            $installer->getFkName('prometheus/config_option', 'group_id', 'prometheus/config_group', 'group_id'),
+            $installer->getFkName('blackchacal_prometheus/config_option', 'group_id', 'blackchacal_prometheus/config_group', 'group_id'),
             'group_id',
-            $installer->getTable('prometheus/config_group'),
+            $installer->getTable('blackchacal_prometheus/config_group'),
             'group_id',
             Varien_Db_Ddl_Table::ACTION_CASCADE,
             Varien_Db_Ddl_Table::ACTION_CASCADE

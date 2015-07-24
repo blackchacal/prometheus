@@ -25,6 +25,6 @@ class BlackChacal_Prometheus_Model_Resource_Config_Option_Collection extends Mag
 {
     public function _construct()
     {
-        $this->_init('prometheus/config_option');
+        $this->_init('blackchacal_prometheus/config_option');
     }
 }
