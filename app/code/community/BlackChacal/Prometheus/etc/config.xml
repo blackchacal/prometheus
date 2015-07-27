@@ -61,7 +61,23 @@
                 <class>BlackChacal_Prometheus_Helper</class>
             </blackchacal_prometheus>
         </helpers>
+        <blocks>
+            <blackchacal_prometheus>
+                <class>BlackChacal_Prometheus_Block</class>
+            </blackchacal_prometheus>
+        </blocks>
     </global>
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <BlackChacal_Prometheus before="Mage_Adminhtml">BlackChacal_Prometheus_Adminhtml</BlackChacal_Prometheus>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
     <adminhtml>
         <translate>
             <modules>
@@ -72,6 +88,13 @@
                 </BlackChacal_Prometheus>
             </modules>
         </translate>
+        <layout>
+            <updates>
+                <blackchacal_prometheus>
+                    <file>blackchacal_prometheus.xml</file>
+                </blackchacal_prometheus>
+            </updates>
+        </layout>
     </adminhtml>
     <default>
         <blackchacal_prometheus>

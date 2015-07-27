@@ -166,3 +166,8 @@ skin/frontend/default/modern/
 skin/frontend/enterprise
 skin/install/
 var/
+
+# Don't Ignore #
+################
+
+!app/design/adminhtml/default/default/layout/blackchacal_prometheus.xml
