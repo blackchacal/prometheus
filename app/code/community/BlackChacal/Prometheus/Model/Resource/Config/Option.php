@@ -25,6 +25,6 @@ class BlackChacal_Prometheus_Model_Resource_Config_Option extends Mage_Core_Mode
 {
     protected function _construct()
     {
-        $this->_init('blackchacal_prometheus/config_option', 'entity_id');
+        $this->_init('blackchacal_prometheus/config_option', 'option_id');
     }
 }
