@@ -32,6 +32,7 @@
                     <action>adminhtml/prometheus</action>
                     <depends>
                         <module>BlackChacal_Prometheus</module>
+                        <config>blackchacal_prometheus/general/enabled</config>
                     </depends>
                 </blackchacal_prometheus>
             </children>
