@@ -24,18 +24,33 @@
 -->
 <layout>
     <adminhtml_prometheus_index>
-        <!-- <reference name="menu">
-            <action method="setActive">
-                <menupath>system/blackchacal_prometheus</menupath>
-            </action>
-        </reference> -->
         <reference name="content">
             <block type="blackchacal_prometheus/adminhtml_prometheus" name="blackchacal_prometheus_extensions_list" />
         </reference>
     </adminhtml_prometheus_index>
-    <!-- <adminhtml_prometheus_grid>
-        <block type="core/text_list" name="root">
-            <block type="blackchacal_prometheus/adminhtml_prometheus_grid" name="blackchacal_prometheus_extensions_grid"/>
-        </block>
-    </adminhtml_prometheus_grid> -->
+    <adminhtml_prometheus_edit>
+        <reference name="left">
+            <block type="blackchacal_prometheus/adminhtml_prometheus_edit_tabs" name="prometheus_edit_tabs">
+                <block type="blackchacal_prometheus/adminhtml_prometheus_edit_tab_general" name="prometheus_edit_tab_general" />
+                <!-- <block type="adminhtml/prometheus_edit_tab_configoptions" name="prometheus_edit_tab_configoptions" />
+                <block type="adminhtml/prometheus_edit_tab_admingrid" name="prometheus_edit_tab_admingrid" />
+                <block type="adminhtml/prometheus_edit_tab_frontend" name="prometheus_edit_tab_frontend" />
+                <block type="adminhtml/prometheus_edit_tab_entities" name="prometheus_edit_tab_entities" />
+                <block type="adminhtml/prometheus_edit_tab_filesfolders" name="prometheus_edit_tab_filesfolders" />
+                <block type="adminhtml/prometheus_edit_tab_payment" name="prometheus_edit_tab_payment" />
+                <block type="adminhtml/prometheus_edit_tab_shipping" name="prometheus_edit_tab_shipping" />
+                <block type="adminhtml/prometheus_edit_tab_help" name="prometheus_edit_tab_help" /> -->
+
+                <action method="addTab"><name>general_section</name><block>blackchacal_prometheus/adminhtml_prometheus_edit_tab_general</block></action>
+                <!-- <action method="addTab"><name>configoptions_section</name><block>promo_quote_edit_tab_configoptions</block></action>
+                <action method="addTab"><name>admingrid_section</name><block>promo_quote_edit_tab_admingrid</block></action>
+                <action method="addTab"><name>frontend_section</name><block>promo_quote_edit_tab_frontend</block></action>
+                <action method="addTab"><name>entities_section</name><block>promo_quote_edit_tab_entities</block></action>
+                <action method="addTab"><name>filesfolders_section</name><block>promo_quote_edit_tab_filesfolders</block></action>
+                <action method="addTab"><name>payment_section</name><block>promo_quote_edit_tab_payment</block></action>
+                <action method="addTab"><name>shipping_section</name><block>promo_quote_edit_tab_shipping</block></action>
+                <action method="addTab" ifconfig="blackchacal_prometheus/general/help" condition="1"><name>help_section</name><block>promo_quote_edit_tab_help</block></action> -->
+            </block>
+        </reference>
+    </adminhtml_prometheus_edit>
 </layout>
