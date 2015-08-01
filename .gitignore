@@ -33,6 +33,11 @@ Thumbs.db
 *.sublime-project
 *.sublime-workspace
 
+# PHPStorm project files #
+##########################
+
+.idea/
+
 # Magento Folders and Files #
 #############################
 
