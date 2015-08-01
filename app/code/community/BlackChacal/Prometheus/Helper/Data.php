@@ -26,7 +26,7 @@ class BlackChacal_Prometheus_Helper_Data extends Mage_Core_Helper_Data
     /**
      * System configuration section key
      */
-    const XML_PATH_SECTION              = 'prometheus';
+    const XML_PATH_SECTION              = 'blackchacal_prometheus';
 
     /**
      * System configuration group keys
@@ -49,7 +49,7 @@ class BlackChacal_Prometheus_Helper_Data extends Mage_Core_Helper_Data
      * @param  mixed  $store Store data
      * @return mixed
      */
-    public function getConfig($group, $field, $store = null)
+    public function getConfig($field, $group = 'default_extension', $store = null)
     {
         $configPath = self::XML_PATH_SECTION.'/'.$group.'/'.$field;
         return Mage::getStoreConfig($configPath, $store);
