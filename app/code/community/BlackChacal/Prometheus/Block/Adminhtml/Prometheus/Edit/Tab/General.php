@@ -28,7 +28,7 @@ class BlackChacal_Prometheus_Block_Adminhtml_Prometheus_Edit_Tab_General extends
      */
     public function getTabLabel()
     {
-        return Mage::helper('modulecreator')->__('General Settings');
+        return Mage::helper('blackchacal_prometheus')->__('General Settings');
     }
 
     /**
@@ -36,7 +36,7 @@ class BlackChacal_Prometheus_Block_Adminhtml_Prometheus_Edit_Tab_General extends
      */
     public function getTabTitle()
     {
-        return Mage::helper('modulecreator')->__('General Settings');
+        return Mage::helper('blackchacal_prometheus')->__('General Settings');
     }
 
     /**
