@@ -125,6 +125,14 @@ class BlackChacal_Prometheus_Block_Adminhtml_Prometheus_Edit_Tab_General extends
                             Mage::helper('blackchacal_prometheus')->getConfig('license')
         ));
 
+        $fieldset->addField('action', 'select', array(
+            'name'      => 'action',
+            'label'     => Mage::helper('blackchacal_prometheus')->__('Action'),
+            'title'     => Mage::helper('blackchacal_prometheus')->__('Action'),
+            'required'  => false,
+            'values'     => Mage::getModel('blackchacal_prometheus/system_config_source_action')->toOptionArray()
+        ));
+
         $this->setForm($form);
         /**
          * If is "edit" page use model values. If is "new" page use default
