@@ -1,7 +1,6 @@
-* Prometheus
-** Magento Extension
+# Prometheus - Magento Extension
 
-*** Purpose
+## Purpose
 This extension will allow the creation of a bootstrap for new extensions. It is
 in a way inspired on the extension [Ultimate Module Creator](https://github.com/tzyganu/UMC1.9)
 
