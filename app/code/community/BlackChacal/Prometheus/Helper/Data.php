@@ -40,6 +40,11 @@ class BlackChacal_Prometheus_Helper_Data extends Mage_Core_Helper_Data
     const XML_PATH_GENERAL_ACTIVE       = 'prometheus/general/enabled';
     const XML_PATH_GENERAL_HELP         = 'prometheus/general/help';
 
+    /**
+     * General constants
+     */
+    const LOG_FILENAME                  = 'blackchacal_prometheus.log';
+
 
     /**
      * Returns the configuration options of Prometheus based on group and field.
@@ -75,5 +80,15 @@ class BlackChacal_Prometheus_Helper_Data extends Mage_Core_Helper_Data
     public function isHelpTabActive()
     {
         return Mage::getStoreConfig(self::XML_PATH_GENERAL_HELP);
+    }
+
+    /**
+     * Returns the filename for Prometheus log.
+     *
+     * @return string
+     */
+    public function getLogFilename()
+    {
+        return self::LOG_FILENAME;
     }
 }
