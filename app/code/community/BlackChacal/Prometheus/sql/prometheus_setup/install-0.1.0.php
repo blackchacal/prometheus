@@ -59,6 +59,9 @@ $table = $installer->getConnection()
     ->addColumn('author_email', Varien_Db_Ddl_Table::TYPE_VARCHAR, 150, array(
         'nullable' => true,
     ), 'Author Email')
+    ->addColumn('type', Varien_Db_Ddl_Table::TYPE_VARCHAR, 50, array(
+        'nullable' => true,
+    ), 'Type')
     ->addColumn('action', Varien_Db_Ddl_Table::TYPE_VARCHAR, 10, array(
         'nullable' => false,
     ), 'Action')
