@@ -106,6 +106,16 @@ class BlackChacal_Prometheus_Adminhtml_PrometheusController extends Mage_Adminht
             try {
                 $extensionModel->save();
 
+                switch ($postData['action']) {
+                    case 'archive':
+                        break;
+                    case 'install':
+                        $extensionModel->install();
+                        break;
+                    default:
+                        break;
+                }
+
                 Mage::getSingleton('adminhtml/session')->addSuccess($this->__('The extension has been saved.'));
                 $this->_redirect('*/*/');
 
@@ -131,12 +141,13 @@ class BlackChacal_Prometheus_Adminhtml_PrometheusController extends Mage_Adminht
     {
         // Get id if available
         $id  = $this->getRequest()->getParam('id');
-        $extensionModel = Mage::getModel('blackchacal_prometheus/extension');
+        $extensionModel = Mage::getSingleton('blackchacal_prometheus/extension');
 
         if ($id) {
             try {
                 // Delete record
                 $extensionModel->load($id)->delete();
+                $extensionModel->uninstall();
 
                 Mage::getSingleton('adminhtml/session')->addSuccess($this->__('The extension was deleted.'));
             } catch (Exception $e) {
@@ -164,6 +175,7 @@ class BlackChacal_Prometheus_Adminhtml_PrometheusController extends Mage_Adminht
 
                 foreach ($extensionIds as $extensionId) {
                     $extensionModel->load($extensionId)->delete();
+                    $extensionModel->uninstall();
                 }
 
                 Mage::getSingleton('adminhtml/session')->addSuccess($this->__('Total of %d record(s) were deleted.', count($extensionIds)));

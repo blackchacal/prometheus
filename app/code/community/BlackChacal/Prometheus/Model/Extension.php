@@ -23,8 +23,36 @@
 
 class BlackChacal_Prometheus_Model_Extension extends Mage_Core_Model_Abstract
 {
+    /**
+     * Deals with all extension file creation/deletion.
+     * @var BlackChacal_Prometheus_Model_Extension_Writer
+     */
+    protected $fwriter;
+
     protected function _construct()
     {
         $this->_init('blackchacal_prometheus/extension');
+    }
+
+    /**
+     * Install the extension by creating all the necessary files and folders.
+     * It behaves differently according to extension configuration.
+     */
+    public function install()
+    {
+        $extensionName = $this->getNamespace().'_'.$this->getName();
+        Mage::getSingleton('blackchacal_prometheus/extension_writer', array(
+            'extensionName' => $extensionName,
+            'codepool' => $this->getCodepool()
+        ));
+    }
+
+    public function uninstall()
+    {
+        $extensionName = $this->getNamespace().'_'.$this->getName();
+        Mage::getSingleton('blackchacal_prometheus/extension_writer', array(
+            'extensionName' => $extensionName,
+            'codepool' => $this->getCodepool()
+        ))->deleteExtensionFolderFiles();
     }
 }
