@@ -41,7 +41,7 @@ class BlackChacal_Prometheus_Model_Extension extends Mage_Core_Model_Abstract
     public function install()
     {
         $extensionName = $this->getNamespace().'_'.$this->getName();
-        Mage::getSingleton('blackchacal_prometheus/extension_writer', array(
+        Mage::getModel('blackchacal_prometheus/extension_writer', array(
             'extensionName' => $extensionName,
             'codepool' => $this->getCodepool()
         ));
@@ -50,7 +50,7 @@ class BlackChacal_Prometheus_Model_Extension extends Mage_Core_Model_Abstract
     public function uninstall()
     {
         $extensionName = $this->getNamespace().'_'.$this->getName();
-        Mage::getSingleton('blackchacal_prometheus/extension_writer', array(
+        Mage::getModel('blackchacal_prometheus/extension_writer', array(
             'extensionName' => $extensionName,
             'codepool' => $this->getCodepool()
         ))->deleteExtensionFolderFiles();

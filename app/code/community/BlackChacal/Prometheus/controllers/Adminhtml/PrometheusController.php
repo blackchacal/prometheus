@@ -141,11 +141,11 @@ class BlackChacal_Prometheus_Adminhtml_PrometheusController extends Mage_Adminht
     {
         // Get id if available
         $id  = $this->getRequest()->getParam('id');
-        $extensionModel = Mage::getSingleton('blackchacal_prometheus/extension');
 
         if ($id) {
             try {
                 // Delete record
+                $extensionModel = Mage::getModel('blackchacal_prometheus/extension');
                 $extensionModel->load($id)->delete();
                 $extensionModel->uninstall();
 
