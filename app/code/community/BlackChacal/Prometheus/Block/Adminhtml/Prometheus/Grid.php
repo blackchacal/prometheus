@@ -90,6 +90,10 @@ class BlackChacal_Prometheus_Block_Adminhtml_Prometheus_Grid extends Mage_Adminh
             'header'=> $this->__('Author'),
             'index' => 'author_name'
         ));
+        $this->addColumn('author_email', array(
+            'header'=> $this->__('Author Email'),
+            'index' => 'author_email'
+        ));
 
         return parent::_prepareColumns();
     }
