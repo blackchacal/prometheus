@@ -24,6 +24,11 @@
 class BlackChacal_Prometheus_Helper_Data extends Mage_Core_Helper_Data
 {
     /**
+     * Extension directories
+     */
+    const MODULE_DIR                    = '/community/BlackChacal/Prometheus';
+
+    /**
      * System configuration section key
      */
     const XML_PATH_SECTION              = 'blackchacal_prometheus';
@@ -90,5 +95,24 @@ class BlackChacal_Prometheus_Helper_Data extends Mage_Core_Helper_Data
     public function getLogFilename()
     {
         return self::LOG_FILENAME;
+    }
+
+    /**
+     * Returns the End-of-line character.
+     *
+     * @return string
+     */
+    public function getEol()
+    {
+        return "\n";
+    }
+
+    /**
+     * Return module dir in relation to app/code folder.
+     * @return string
+     */
+    public function getModuleDir()
+    {
+        return self::MODULE_DIR;
     }
 }
