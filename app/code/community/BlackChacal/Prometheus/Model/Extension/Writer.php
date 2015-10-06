@@ -61,9 +61,16 @@ class BlackChacal_Prometheus_Model_Extension_Writer
     protected $_codepool;
 
     /**
+     * Extension model.
+     * @var BlackChacal_Prometheus_Model_Extension
+     */
+    protected $_model;
+
+    /**
      * Sets the filesystem wrapper and starts managing file creation paths according
      * to type.
      * $args is an array with the following fields:
+     * 'model': BlackChacal_Prometheus_Model_Extension
      * 'extensionName': has the format 'Vendor_ExtensionName'
      * 'codepool': 'community'/'local'
      * @param $args
@@ -78,9 +85,19 @@ class BlackChacal_Prometheus_Model_Extension_Writer
             $this->_namespace = $namespace;
             $this->_extensionName = $name;
             $this->_codepool = $args['codepool'];
-
-            $this->_createExtensionMainFolder();
+            $this->_model = $args['model'];
+        } else {
+            Mage::log('BlackChacal_Prometheus_Model_Extension_Writer constructor has array argument.', null, Mage::helper('blackchacal_prometheus')->getLogFilename());
+            Mage::getSingleton('adminhtml/session')->addError('BlackChacal_Prometheus_Model_Extension_Writer constructor has array argument.');
         }
+    }
+
+    /**
+     * Install the extension by creating its files and folders
+     */
+    public function install() {
+        $this->_createExtensionMainFolder();
+        $this->_createModulesConfigFile();
     }
 
     /**
@@ -108,10 +125,18 @@ class BlackChacal_Prometheus_Model_Extension_Writer
 
         try {
             $this->_filesystem->rmdir($extensionPath, true);
-            $this->_filesystem->cd($namespacePath);
+            if (is_dir($namespacePath)) {
+                $this->_filesystem->cd($namespacePath);
 
-            if (count($this->_filesystem->ls()) == 0) {
-                $this->_filesystem->rmdir($namespacePath, true);
+                if (count($this->_filesystem->ls()) == 0) {
+                    $this->_filesystem->rmdir($namespacePath, true);
+                }
+            }
+
+            $modulesConfigFile = $this->_namespace.'_'.$this->_extensionName.'.xml';
+            $modulesConfigFilePath = Mage::getBaseDir('etc').DS.self::MODULES_DIR.DS.$modulesConfigFile;
+            if (file_exists($modulesConfigFilePath)) {
+                $this->_filesystem->rm($modulesConfigFilePath);
             }
         } catch(Exception $e) {
             Mage::log($e->getMessage(), null, Mage::helper('blackchacal_prometheus')->getLogFilename());
@@ -133,4 +158,15 @@ class BlackChacal_Prometheus_Model_Extension_Writer
         $this->createExtensionFolders($extensionPath);
     }
 
+    private function _createModulesConfigFile() {
+        $data = [
+            'type' => 'xml',
+            'xmlType' => 'modules',
+            'extensionName' => $this->_namespace.'_'.$this->_extensionName,
+            'codepool' => $this->_codepool,
+            'license' => $this->_model->getLicense()
+        ];
+
+        Mage::getModel('blackchacal_prometheus/extension_file_writer')->createModulesConfigFile($data);
+    }
 }
