@@ -76,7 +76,7 @@ class BlackChacal_Prometheus_Model_Extension_File_Writer extends BlackChacal_Pro
         $filepath = Mage::getBaseDir('etc').DS.self::MODULES_DIR.DS.$filename;
 
         try {
-            $this->_filesystem->filePutContent($filepath, $contents);
+            @$this->_filesystem->write($filepath, $contents);
         } catch (Exception $e) {
             Mage::log($e->getMessage(), null, Mage::helper('blackchacal_prometheus')->getLogFilename());
             Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
