@@ -125,7 +125,7 @@ needs please contact the author for more information.
 
 @category       {{Namespace}}
 @package        {{Namespace}}_{{Module}}
-@copyright      Copyright (c) {{Author}} {{Email}}
+@copyright      Copyright (c) {{Author}} <{{Email}}>
 @license        http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)]]>
                 </license>
                 <config_tab>namespace</config_tab>

@@ -72,7 +72,7 @@ class BlackChacal_Prometheus_Model_Extension_File_Writer extends BlackChacal_Pro
         $contentObj->prepareFileContents();
 
         $contents = $contentObj->getContents();
-        $filename = $contentData['extensionName'].'.xml';
+        $filename = $contentData['extensionFullName'].'.xml';
         $filepath = Mage::getBaseDir('etc').DS.self::MODULES_DIR.DS.$filename;
 
         try {

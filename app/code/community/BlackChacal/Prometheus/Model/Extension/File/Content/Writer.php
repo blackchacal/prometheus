@@ -74,11 +74,25 @@ class BlackChacal_Prometheus_Model_Extension_File_Content_Writer
      *      ['contentString'] = 'content'
      * ],
      * ['copyright'] = 'copyright text'
+     * ['author'] = 'author name'
+     * ['author_email'] = 'author email'
      * ]
      *
      * @var array Content data.
      */
-    protected $contentData = array();
+    protected $_contentData = [];
+
+    /**
+     * List of placeholders for license text.
+     *
+     * @var array
+     */
+    protected $_placeholders = [
+        'Namespace' => 'namespace',
+        'Module'    => 'name',
+        'Author'    => 'author',
+        'Email'     => 'author_email'
+    ];
 
     /**
      * @var string File opening tag. Ex: <?php, <?xml version="1.0"?>
@@ -109,7 +123,7 @@ class BlackChacal_Prometheus_Model_Extension_File_Content_Writer
      */
     public function prepareFileContents()
     {
-
+        $this->_content = "{$this->_openingTag} {$this->_eol} {$this->getLicenseText()} {$this->_eol}";
     }
 
     /**
@@ -119,6 +133,21 @@ class BlackChacal_Prometheus_Model_Extension_File_Content_Writer
      */
     protected function getLicenseText()
     {
-        return "<!-- {$this->_eol}".$this->_contentData['license']."{$this->_eol} --> {$this->_eol}";
+        return "<!-- {$this->_eol}".$this->replacePlaceholders($this->_contentData['license'])."{$this->_eol} --> {$this->_eol}";
+    }
+
+    /**
+     * Replaces text placeholders by respective value.
+     *
+     * @param $str
+     * @return mixed
+     */
+    protected function replacePlaceholders($str)
+    {
+        $newStr = $str;
+        foreach($this->_placeholders as $placeholder => $value) {
+            $newStr = str_replace("{{".$placeholder."}}", $this->_contentData[$value], $newStr);
+        }
+        return $newStr;
     }
 }

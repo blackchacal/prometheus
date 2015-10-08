@@ -158,13 +158,20 @@ class BlackChacal_Prometheus_Model_Extension_Writer
         $this->createExtensionFolders($extensionPath);
     }
 
+    /**
+     * Creates app/etc/modules configuration file.
+     */
     private function _createModulesConfigFile() {
         $data = [
-            'type' => 'xml',
-            'xmlType' => 'modules',
-            'extensionName' => $this->_namespace.'_'.$this->_extensionName,
-            'codepool' => $this->_codepool,
-            'license' => $this->_model->getLicense()
+            'type'              => 'xml',
+            'xmlType'           => 'modules',
+            'namespace'         => $this->_namespace,
+            'name'              => $this->_extensionName,
+            'extensionFullName'     => $this->_namespace.'_'.$this->_extensionName,
+            'codepool'          => $this->_codepool,
+            'license'           => $this->_model->getLicense(),
+            'author'            => $this->_model->getAuthorName(),
+            'author_email'      => $this->_model->getAuthorEmail(),
         ];
 
         Mage::getModel('blackchacal_prometheus/extension_file_writer')->createModulesConfigFile($data);

@@ -37,22 +37,23 @@ class BlackChacal_Prometheus_Model_Extension_File_Content_Xml_Configwriter exten
             Mage::throwException("Wrong content type! It should be xml.");
         }
 
-        $contents = "{$this->_openingTag} {$this->_eol} {$this->getLicenseText()} {$this->_eol}";
-        $contents .= $this->selectXmlFileType();
+        parent::prepareFileContents();
 
-        $this->_content = $contents;
+        $contents = $this->selectXmlFileType();
+
+        $this->_content .= $contents;
     }
 
     private function selectXmlFileType()
     {
         $content = '';
         $type = $this->_contentData['xmlType'];
-        $extensionName = $this->_contentData['extensionName'];
+        $extensionFullName = $this->_contentData['extensionFullName'];
         $codepool = $this->_contentData['codepool'];
 
         switch ($type) {
             case 'modules':
-                $content = $this->_createModulesConfigXml($extensionName, $codepool);
+                $content = $this->_createModulesConfigXml($extensionFullName, $codepool);
                 break;
             case 'general':
                 break;
@@ -69,12 +70,12 @@ class BlackChacal_Prometheus_Model_Extension_File_Content_Xml_Configwriter exten
 
     /**
      * Creates app/etc/modules extension config file.
-     * 
-     * @param $extensionName
+     *
+     * @param $extensionFullName
      * @param $codepool
      * @return mixed|string
      */
-    private function _createModulesConfigXml($extensionName, $codepool)
+    private function _createModulesConfigXml($extensionFullName, $codepool)
     {
         $codePath = Mage::getBaseDir('code');
         $extensionPath = $codePath.$this->_helper->getModuleDir();
@@ -84,7 +85,7 @@ class BlackChacal_Prometheus_Model_Extension_File_Content_Xml_Configwriter exten
             $xmlObj = new Varien_Simplexml_Config($path);
             $xmlText = $xmlObj->getNode()->asNiceXml();
 
-            $xmlText = str_replace('Namespace_Module', $extensionName, $xmlText);
+            $xmlText = str_replace('Namespace_Module', $extensionFullName, $xmlText);
             $xmlText = str_replace('codepool_value', $codepool, $xmlText);
         } catch(Exception $e) {
             Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
