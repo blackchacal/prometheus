@@ -1,0 +1,8 @@
+<config>
+    <modules>
+        <{{Namespace}}_{{Module}}>
+            <active>true</active>
+            <codePool>{{Codepool}}</codePool>
+        </{{Namespace}}_{{Module}}>
+    </modules>
+</config>

@@ -40,7 +40,6 @@ class BlackChacal_Prometheus_Model_Extension_File_Content_Xml_Configwriter exten
         parent::prepareFileContents();
 
         $contents = $this->selectXmlFileType();
-
         $this->_content .= $contents;
     }
 
@@ -48,12 +47,10 @@ class BlackChacal_Prometheus_Model_Extension_File_Content_Xml_Configwriter exten
     {
         $content = '';
         $type = $this->_contentData['xmlType'];
-        $extensionFullName = $this->_contentData['extensionFullName'];
-        $codepool = $this->_contentData['codepool'];
 
         switch ($type) {
             case 'modules':
-                $content = $this->_createModulesConfigXml($extensionFullName, $codepool);
+                $content = $this->_createModulesConfigXml();
                 break;
             case 'general':
                 break;
@@ -71,22 +68,17 @@ class BlackChacal_Prometheus_Model_Extension_File_Content_Xml_Configwriter exten
     /**
      * Creates app/etc/modules extension config file.
      *
-     * @param $extensionFullName
-     * @param $codepool
      * @return mixed|string
      */
-    private function _createModulesConfigXml($extensionFullName, $codepool)
+    private function _createModulesConfigXml()
     {
         $codePath = Mage::getBaseDir('code');
         $extensionPath = $codePath.$this->_helper->getModuleDir();
-        $path = $extensionPath.DS.'etc'.DS.self::SOURCE_FOLDER.DS.'modules_config.xml';
+        $path = $extensionPath.DS.'etc'.DS.self::SOURCE_FOLDER.DS.'modules_config.txt';
 
         try {
-            $xmlObj = new Varien_Simplexml_Config($path);
-            $xmlText = $xmlObj->getNode()->asNiceXml();
-
-            $xmlText = str_replace('Namespace_Module', $extensionFullName, $xmlText);
-            $xmlText = str_replace('codepool_value', $codepool, $xmlText);
+            $xmlText = @$this->_filesystem->read($path);
+            $xmlText = $this->replacePlaceholders($xmlText);
         } catch(Exception $e) {
             Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
         }

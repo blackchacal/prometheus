@@ -167,7 +167,7 @@ class BlackChacal_Prometheus_Model_Extension_Writer
             'xmlType'           => 'modules',
             'namespace'         => $this->_namespace,
             'name'              => $this->_extensionName,
-            'extensionFullName'     => $this->_namespace.'_'.$this->_extensionName,
+            'extensionFullName' => $this->_namespace.'_'.$this->_extensionName,
             'codepool'          => $this->_codepool,
             'license'           => $this->_model->getLicense(),
             'author'            => $this->_model->getAuthorName(),

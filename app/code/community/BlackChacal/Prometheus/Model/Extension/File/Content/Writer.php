@@ -21,7 +21,7 @@
  * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
 
-class BlackChacal_Prometheus_Model_Extension_File_Content_Writer
+class BlackChacal_Prometheus_Model_Extension_File_Content_Writer extends BlackChacal_Prometheus_Model_Extension_File_Writer
 {
     const SOURCE_FOLDER = 'source';
 
@@ -83,13 +83,14 @@ class BlackChacal_Prometheus_Model_Extension_File_Content_Writer
     protected $_contentData = [];
 
     /**
-     * List of placeholders for license text.
+     * List of placeholders for text replacement.
      *
      * @var array
      */
     protected $_placeholders = [
         'Namespace' => 'namespace',
         'Module'    => 'name',
+        'Codepool'  => 'codepool',
         'Author'    => 'author',
         'Email'     => 'author_email'
     ];
@@ -101,6 +102,8 @@ class BlackChacal_Prometheus_Model_Extension_File_Content_Writer
 
     public function __construct(array $contentData)
     {
+        parent::__construct();
+
         $this->_contentData = $contentData;
         $this->_helper = Mage::helper('blackchacal_prometheus');
         $this->_eol = $this->_helper->getEol();
