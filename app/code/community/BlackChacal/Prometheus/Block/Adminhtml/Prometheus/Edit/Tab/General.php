@@ -192,7 +192,8 @@ class BlackChacal_Prometheus_Block_Adminhtml_Prometheus_Edit_Tab_General extends
         $fieldset->addField('config_node_code', 'text', array(
             'name'      => 'config_node_code',
             'label'     => Mage::helper('blackchacal_prometheus')->__('Config Node Code'),
-            'title'     => Mage::helper('blackchacal_prometheus')->__('Config Node Code')
+            'title'     => Mage::helper('blackchacal_prometheus')->__('Config Node Code'),
+            'required'  => true
         ));
 
         $this->setForm($form);
