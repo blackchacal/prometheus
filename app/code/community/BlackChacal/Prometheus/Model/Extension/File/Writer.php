@@ -67,7 +67,13 @@ class BlackChacal_Prometheus_Model_Extension_File_Writer extends BlackChacal_Pro
         $this->_filesystem = new Varien_Io_File();
     }
 
+    /**
+     * Creates modules config xml file.
+     *
+     * @param array $contentData
+     */
     public function createModulesConfigFile(array $contentData) {
+        $contentData['xmlType'] = 'modules';
         $contentObj = Mage::getModel('blackchacal_prometheus/extension_file_content_xml_configwriter', $contentData);
         $contentObj->prepareFileContents();
 
@@ -81,5 +87,42 @@ class BlackChacal_Prometheus_Model_Extension_File_Writer extends BlackChacal_Pro
             Mage::log($e->getMessage(), null, Mage::helper('blackchacal_prometheus')->getLogFilename());
             Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
         }
+    }
+
+    /**
+     * Creates extension config.xml file.
+     *
+     * @param array $contentData
+     */
+    public function createExtensionConfigFile(array $contentData) {
+        $contentData['type'] = 'xml';
+        $contentData['xmlType'] = 'general';
+        $contentObj = Mage::getModel('blackchacal_prometheus/extension_file_content_xml_configwriter', $contentData);
+        $contentObj->prepareFileContents();
+
+        $contents = $contentObj->getContents();
+        $filename = 'config.xml';
+        $filepath = $this->_getExtensionPath($contentData['codepool'], $contentData['namespace'], $contentData['name']).DS.self::ETC_FOLDER.DS.$filename;
+
+        try {
+            @$this->_filesystem->write($filepath, $contents);
+        } catch (Exception $e) {
+            Mage::log($e->getMessage(), null, Mage::helper('blackchacal_prometheus')->getLogFilename());
+            Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+        }
+    }
+
+    /**
+     * Gets extension path.
+     *
+     * @param $codepool
+     * @param $namespace
+     * @param $extensionName
+     * @return string
+     */
+    private function _getExtensionPath($codepool, $namespace, $extensionName) {
+        $codePath = Mage::getBaseDir('code');
+        $extensionPath = $codePath.DS.$codepool.DS.$namespace.DS.$extensionName;
+        return $extensionPath;
     }
 }

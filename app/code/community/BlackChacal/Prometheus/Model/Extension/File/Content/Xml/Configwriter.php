@@ -53,6 +53,7 @@ class BlackChacal_Prometheus_Model_Extension_File_Content_Xml_Configwriter exten
                 $content = $this->_createModulesConfigXml();
                 break;
             case 'general':
+                $content = $this->_createExtensionConfigXml();
                 break;
             case 'adminhtml':
                 break;
@@ -72,9 +73,7 @@ class BlackChacal_Prometheus_Model_Extension_File_Content_Xml_Configwriter exten
      */
     private function _createModulesConfigXml()
     {
-        $codePath = Mage::getBaseDir('code');
-        $extensionPath = $codePath.$this->_helper->getModuleDir();
-        $path = $extensionPath.DS.'etc'.DS.self::SOURCE_FOLDER.DS.'modules_config.txt';
+        $path = $this->_getSourceFilesPath('modules_config_xml.txt');
 
         try {
             $xmlText = @$this->_filesystem->read($path);
@@ -84,5 +83,39 @@ class BlackChacal_Prometheus_Model_Extension_File_Content_Xml_Configwriter exten
         }
 
         return $xmlText;
+    }
+
+    /**
+     * Creates extension etc/config.xml file.
+     *
+     * @return mixed|string
+     */
+    private function _createExtensionConfigXml()
+    {
+        $path = $this->_getSourceFilesPath('extension_config_xml.txt');
+
+        try {
+            $xmlText = @$this->_filesystem->read($path);
+            $xmlText = $this->replacePlaceholders($xmlText);
+        } catch(Exception $e) {
+            Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+        }
+
+        return $xmlText;
+    }
+
+    /**
+     * Gets the source file path given the filename.
+     *
+     * @param $filename
+     * @return string
+     */
+    private function _getSourceFilesPath($filename)
+    {
+        $codePath = Mage::getBaseDir('code');
+        $extensionPath = $codePath.$this->_helper->getModuleDir();
+        $path = $extensionPath.DS.self::ETC_FOLDER.DS.self::SOURCE_FOLDER.DS.$filename;
+
+        return $path;
     }
 }

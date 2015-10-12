@@ -1,0 +1,14 @@
+<config>
+    <modules>
+        <{{Namespace}}_{{Module}}>
+            <version>{{Version}}</version>
+        </{{Namespace}}_{{Module}}>
+    </modules>
+    <global>
+        <helpers>
+            <{{Config_Node_Code}}>
+                <class>{{Namespace}}_{{Module}}_Helper</class>
+            </{{Config_Node_Code}}>
+        </helpers>
+    </global>
+</config>

@@ -97,7 +97,9 @@ class BlackChacal_Prometheus_Model_Extension_Writer
      */
     public function install() {
         $this->_createExtensionMainFolder();
+        $this->_createExtensionBaseFolders();
         $this->_createModulesConfigFile();
+        $this->_createExtensionBaseFiles();
     }
 
     /**
@@ -149,9 +151,7 @@ class BlackChacal_Prometheus_Model_Extension_Writer
      */
     private function _createExtensionMainFolder()
     {
-        $codePath = Mage::getBaseDir('code');
-        $codepoolPath = $codePath.DS.$this->_codepool;
-        $namespacePath = $codepoolPath.DS.$this->_namespace;
+        $namespacePath = $this->_getNamespacePath();
         $extensionPath = $namespacePath.DS.$this->_extensionName;
 
         $this->createExtensionFolders($namespacePath);
@@ -159,12 +159,51 @@ class BlackChacal_Prometheus_Model_Extension_Writer
     }
 
     /**
+     * Creates extension base folders (etc, Helper, etc.)
+     */
+    private function _createExtensionBaseFolders()
+    {
+        $extensionPath = $this->_getExtensionPath();
+
+        $etcPath = $extensionPath.DS.'etc';
+        $helperPath = $extensionPath.DS.'Helper';
+
+        $this->createExtensionFolders($etcPath);
+        $this->createExtensionFolders($helperPath);
+    }
+
+    /**
+     * Gets namespace path.
+     *
+     * @return string
+     */
+    private function _getNamespacePath()
+    {
+        $codePath = Mage::getBaseDir('code');
+        $codepoolPath = $codePath.DS.$this->_codepool;
+        $namespacePath = $codepoolPath.DS.$this->_namespace;
+
+        return $namespacePath;
+    }
+
+    /**
+     * Gets extension path.
+     *
+     * @return string
+     */
+    private function _getExtensionPath()
+    {
+        $namespacePath = $this->_getNamespacePath();
+        $extensionPath = $namespacePath.DS.$this->_extensionName;
+        return $extensionPath;
+    }
+
+    /**
      * Creates app/etc/modules configuration file.
      */
     private function _createModulesConfigFile() {
-        $data = [
+        $data = array(
             'type'              => 'xml',
-            'xmlType'           => 'modules',
             'namespace'         => $this->_namespace,
             'name'              => $this->_extensionName,
             'extensionFullName' => $this->_namespace.'_'.$this->_extensionName,
@@ -172,8 +211,29 @@ class BlackChacal_Prometheus_Model_Extension_Writer
             'license'           => $this->_model->getLicense(),
             'author'            => $this->_model->getAuthorName(),
             'author_email'      => $this->_model->getAuthorEmail(),
-        ];
+            'config_node_code'  => $this->_model->getConfigNodeCode()
+        );
 
         Mage::getModel('blackchacal_prometheus/extension_file_writer')->createModulesConfigFile($data);
+    }
+
+    /**
+     * Creates extension base files (config.xml, system.xml, Data.php, etc)
+     */
+    private function _createExtensionBaseFiles()
+    {
+        $data = array(
+            'namespace'         => $this->_namespace,
+            'name'              => $this->_extensionName,
+            'extensionFullName' => $this->_namespace.'_'.$this->_extensionName,
+            'codepool'          => $this->_codepool,
+            'version'           => $this->_model->getVersion(),
+            'license'           => $this->_model->getLicense(),
+            'author'            => $this->_model->getAuthorName(),
+            'author_email'      => $this->_model->getAuthorEmail(),
+            'config_node_code'  => $this->_model->getConfigNodeCode()
+        );
+
+        Mage::getModel('blackchacal_prometheus/extension_file_writer')->createExtensionConfigFile($data);
     }
 }

@@ -80,20 +80,22 @@ class BlackChacal_Prometheus_Model_Extension_File_Content_Writer extends BlackCh
      *
      * @var array Content data.
      */
-    protected $_contentData = [];
+    protected $_contentData = array();
 
     /**
      * List of placeholders for text replacement.
      *
      * @var array
      */
-    protected $_placeholders = [
-        'Namespace' => 'namespace',
-        'Module'    => 'name',
-        'Codepool'  => 'codepool',
-        'Author'    => 'author',
-        'Email'     => 'author_email'
-    ];
+    protected $_placeholders = array(
+        'Namespace'         => 'namespace',
+        'Module'            => 'name',
+        'Codepool'          => 'codepool',
+        'Version'           => 'version',
+        'Author'            => 'author',
+        'Email'             => 'author_email',
+        'Config_Node_Code'  => 'config_node_code',
+    );
 
     /**
      * @var string File opening tag. Ex: <?php, <?xml version="1.0"?>
@@ -149,7 +151,9 @@ class BlackChacal_Prometheus_Model_Extension_File_Content_Writer extends BlackCh
     {
         $newStr = $str;
         foreach($this->_placeholders as $placeholder => $value) {
-            $newStr = str_replace("{{".$placeholder."}}", $this->_contentData[$value], $newStr);
+            if (array_key_exists($value, $this->_contentData)) {
+                $newStr = str_replace("{{".$placeholder."}}", $this->_contentData[$value], $newStr);
+            }
         }
         return $newStr;
     }
