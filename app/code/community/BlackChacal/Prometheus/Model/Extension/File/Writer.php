@@ -23,45 +23,6 @@
 
 class BlackChacal_Prometheus_Model_Extension_File_Writer extends BlackChacal_Prometheus_Model_Extension_Writer
 {
-
-    /**
-     * This array should have the following format:
-     * [
-     * 'type' = 'php'/'xml'/'sql',
-     * 'xmlType' = 'modules'/'general'/'adminhtml'/'system'/'layout'
-     * 'extensionName' = 'Namespace_ExtensionName',
-     * 'codepool' = 'codepool',
-     * 'className' = 'class name',
-     * 'extends' = 'extended class',
-     * 'implements' = 'implemented interface',
-     * ['contents'] =
-     * [
-     *      ['methods'] = [
-     *          [
-     *              'name' = 'name',
-     *              'contents' = 'contents',
-     *              'args' = ['arg1', 'arg2', ...]
-     *              'scope' = 'private'/'protected'/'public'
-     *          ],
-     *          [...],
-     *          ...
-     *      ],
-     *      ['nodes'] = [
-     *          [
-     *              'nodeName' = 'name',
-     *              'nodeValue' = 'value',
-     *              'selfClosing' = true/false
-     *          ],
-     *          [...],
-     *          ...
-     *      ],
-     *      ['contentString'] = 'content'
-     * ],
-     * ['copyright'] = 'copyright text'
-     * ]
-     *
-     * @param array $contentData
-     */
     public function __construct()
     {
         $this->_filesystem = new Varien_Io_File();
@@ -73,6 +34,7 @@ class BlackChacal_Prometheus_Model_Extension_File_Writer extends BlackChacal_Pro
      * @param array $contentData
      */
     public function createModulesConfigFile(array $contentData) {
+        $contentData['type'] = 'xml';
         $contentData['xmlType'] = 'modules';
         $contentObj = Mage::getModel('blackchacal_prometheus/extension_file_content_xml_configwriter', $contentData);
         $contentObj->prepareFileContents();

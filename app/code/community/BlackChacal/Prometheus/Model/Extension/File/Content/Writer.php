@@ -157,4 +157,15 @@ class BlackChacal_Prometheus_Model_Extension_File_Content_Writer extends BlackCh
         }
         return $newStr;
     }
+
+    /**
+     * Gets the source file path given the filename.
+     *
+     * @param $filename
+     * @return string
+     */
+    protected function getSourceFilesPath($filename)
+    {
+        return $this->_helper->getSourceFilesDir().DS.$filename; //$path;
+    }
 }

@@ -26,7 +26,7 @@ class BlackChacal_Prometheus_Helper_Data extends Mage_Core_Helper_Data
     /**
      * Extension directories
      */
-    const MODULE_DIR                    = '/community/BlackChacal/Prometheus';
+    const MODULE_DIR                    = 'community/BlackChacal/Prometheus';
 
     /**
      * System configuration section key
@@ -114,5 +114,25 @@ class BlackChacal_Prometheus_Helper_Data extends Mage_Core_Helper_Data
     public function getModuleDir()
     {
         return self::MODULE_DIR;
+    }
+
+    /**
+     * Return app/etc/modules directory.
+     *
+     * @return string
+     */
+    public function getModulesConfigDir()
+    {
+        return Mage::getBaseDir('etc').DS.'modules';
+    }
+
+    /**
+     * Return directory for extension file creation sources.
+     *
+     * @return string
+     */
+    public function getSourceFilesDir()
+    {
+        return Mage::getBaseDir('code').DS.$this->getModuleDir().DS.'etc'.DS.'source';
     }
 }
