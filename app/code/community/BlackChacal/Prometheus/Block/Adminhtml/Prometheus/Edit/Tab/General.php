@@ -149,6 +149,13 @@ class BlackChacal_Prometheus_Block_Adminhtml_Prometheus_Edit_Tab_General extends
             'values'     => Mage::getModel('blackchacal_prometheus/system_config_source_action')->toOptionArray()
         ));
 
+        $fieldset->addField('config_node_code', 'text', array(
+            'name'      => 'config_node_code',
+            'label'     => Mage::helper('blackchacal_prometheus')->__('Config Node Code'),
+            'title'     => Mage::helper('blackchacal_prometheus')->__('Config Node Code'),
+            'required'  => true
+        ));
+
         $fieldset->addField('config_tab_name', 'text', array(
             'name'      => 'config_tab_name',
             'label'     => Mage::helper('blackchacal_prometheus')->__('Configuration Tab Name'),
@@ -187,13 +194,6 @@ class BlackChacal_Prometheus_Block_Adminhtml_Prometheus_Edit_Tab_General extends
             'name'      => 'admin_menu_position',
             'label'     => Mage::helper('blackchacal_prometheus')->__('Admin Menu Position'),
             'title'     => Mage::helper('blackchacal_prometheus')->__('Admin Menu Position')
-        ));
-
-        $fieldset->addField('config_node_code', 'text', array(
-            'name'      => 'config_node_code',
-            'label'     => Mage::helper('blackchacal_prometheus')->__('Config Node Code'),
-            'title'     => Mage::helper('blackchacal_prometheus')->__('Config Node Code'),
-            'required'  => true
         ));
 
         $this->setForm($form);
