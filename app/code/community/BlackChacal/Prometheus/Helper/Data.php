@@ -135,4 +135,14 @@ class BlackChacal_Prometheus_Helper_Data extends Mage_Core_Helper_Data
     {
         return Mage::getBaseDir('code').DS.$this->getModuleDir().DS.'etc'.DS.'source';
     }
+
+    /**
+     * Remove all characters that aren't words, numbers, underscore and spaces.
+     *
+     * @param $str
+     */
+    public function escapeStrings($str)
+    {
+        return preg_replace('/[^ \w+]/', '', $str);
+    }
 }
