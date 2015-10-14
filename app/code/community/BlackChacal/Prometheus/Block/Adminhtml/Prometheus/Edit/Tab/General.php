@@ -156,12 +156,29 @@ class BlackChacal_Prometheus_Block_Adminhtml_Prometheus_Edit_Tab_General extends
             'required'  => true
         ));
 
+        $fieldset->addField('config_tab_type', 'select', array(
+            'name'      => 'config_tab_type',
+            'label'     => Mage::helper('blackchacal_prometheus')->__('Configuration Tab Type'),
+            'title'     => Mage::helper('blackchacal_prometheus')->__('Configuration Tab Type'),
+            'value'     => ($model->getConfigTabType()) ? $model->getConfigTabType() :
+                Mage::helper('blackchacal_prometheus')->getConfig('config_tab'),
+            'values'    => Mage::getModel('blackchacal_prometheus/system_config_source_tabtypes')->toOptionArray()
+        ));
+
         $fieldset->addField('config_tab_name', 'text', array(
-            'name'      => 'config_tab_name',
-            'label'     => Mage::helper('blackchacal_prometheus')->__('Configuration Tab Name'),
-            'title'     => Mage::helper('blackchacal_prometheus')->__('Configuration Tab Name'),
-            'value'     => ($model->getConfigTabName()) ? $model->getConfigTabName() :
-                $this->getConfigTabNames(Mage::helper('blackchacal_prometheus')->getConfig('config_tab'))
+            'name' => 'config_tab_name',
+            'label' => Mage::helper('blackchacal_prometheus')->__('Configuration Tab Name'),
+            'title' => Mage::helper('blackchacal_prometheus')->__('Configuration Tab Name'),
+            'value' => ($model->getConfigTabName()) ? $model->getConfigTabName() :
+                $this->getConfigTabName(Mage::helper('blackchacal_prometheus')->getConfig('config_tab'))
+        ));
+
+        $fieldset->addField('config_tab_label', 'text', array(
+            'name'      => 'config_tab_label',
+            'label'     => Mage::helper('blackchacal_prometheus')->__('Configuration Tab Label'),
+            'title'     => Mage::helper('blackchacal_prometheus')->__('Configuration Tab Label'),
+            'value'     => ($model->getConfigTabLabel()) ? $model->getConfigTabLabel() :
+                $this->getConfigTabLabel(Mage::helper('blackchacal_prometheus')->getConfig('config_tab'))
         ));
 
         $fieldset->addField('config_tab_position', 'text', array(
@@ -209,16 +226,18 @@ class BlackChacal_Prometheus_Block_Adminhtml_Prometheus_Edit_Tab_General extends
     }
 
     /**
-     * Retrives the Configuration Tab Name according to config settings.
+     * Retrives the Configuration Tab Label according to config settings.
      *
      * @param $type string
      * @return string
      */
-    private function getConfigTabNames($type)
+    private function getConfigTabLabel($type)
     {
         switch ($type) {
             case 'namespace':
-                return Mage::helper('blackchacal_prometheus')->getConfig('namespace');
+                $name = Mage::helper('blackchacal_prometheus')->getConfig('namespace');
+                $name = Mage::helper('blackchacal_prometheus')->escapeStrings($name);
+                return $name;
                 break;
             case 'system':
                 $tabs = Mage::getModel('blackchacal_prometheus/system_config_source_systemtabs')->toOptionArray();
@@ -229,7 +248,39 @@ class BlackChacal_Prometheus_Block_Adminhtml_Prometheus_Edit_Tab_General extends
                 }
                 break;
             case 'custom':
-                return Mage::helper('blackchacal_prometheus')->getConfig('config_tab_custom');
+                $name = Mage::helper('blackchacal_prometheus')->getConfig('config_tab_custom');
+                $name = Mage::helper('blackchacal_prometheus')->escapeStrings($name);
+                return $name;
+                break;
+        }
+    }
+
+    /**
+     * Retrives the Configuration Tab Name according to config settings.
+     *
+     * @param $type string
+     * @return string
+     */
+    private function getConfigTabName($type)
+    {
+        switch ($type) {
+            case 'namespace':
+                $name = strtolower(Mage::helper('blackchacal_prometheus')->getConfig('namespace'));
+                $name = Mage::helper('blackchacal_prometheus')->escapeStrings($name);
+                return preg_replace('/\s+/', '_', $name);
+                break;
+            case 'system':
+                $tabs = Mage::getModel('blackchacal_prometheus/system_config_source_systemtabs')->toOptionArray();
+                foreach($tabs as $tab) {
+                    if ($tab['value'] == Mage::helper('blackchacal_prometheus')->getConfig('config_tab_system')) {
+                        return $tab['value'];
+                    }
+                }
+                break;
+            case 'custom':
+                $name = strtolower(Mage::helper('blackchacal_prometheus')->getConfig('config_tab_custom'));
+                $name = Mage::helper('blackchacal_prometheus')->escapeStrings($name);
+                return preg_replace('/\s+/', '_', $name);
                 break;
         }
     }
