@@ -1,0 +1,16 @@
+<config>
+    <sections>
+        <{{Config_Section_Name}} translate="label" module="{{Config_Node_Code}}">
+            <label>{{Config_Section_Label}}</label>
+            <tab>{{Config_Tab_Name}}</tab>
+            <frontend_type>text</frontend_type>
+            <sort_order>10</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>1</show_in_store>
+            <groups>
+
+            </groups>
+        </{{Config_Section_Name}}>
+    <sections>
+</config>

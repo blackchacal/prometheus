@@ -75,6 +75,35 @@ class BlackChacal_Prometheus_Model_Extension_File_Writer extends BlackChacal_Pro
     }
 
     /**
+     * Creates extension system.xml file.
+     *
+     * @param array $contentData
+     */
+    public function createExtensionSystemFile(array $contentData) {
+        if (array_key_exists('config_section_name', $contentData) &&
+            array_key_exists('config_section_label', $contentData) &&
+            $contentData['config_section_name'] != '' &&
+            $contentData['config_section_label'] != '') {
+
+            $contentData['type'] = 'xml';
+            $contentData['xmlType'] = 'system';
+            $contentObj = Mage::getModel('blackchacal_prometheus/extension_file_content_xml_configwriter', $contentData);
+            $contentObj->prepareFileContents();
+
+            $contents = $contentObj->getContents();
+            $filename = 'system.xml';
+            $filepath = $this->_getExtensionPath($contentData['codepool'], $contentData['namespace'], $contentData['name']).DS.self::ETC_FOLDER.DS.$filename;
+
+            try {
+                @$this->_filesystem->write($filepath, $contents);
+            } catch (Exception $e) {
+                Mage::log($e->getMessage(), null, Mage::helper('blackchacal_prometheus')->getLogFilename());
+                Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+            }
+        }
+    }
+
+    /**
      * Gets extension path.
      *
      * @param $codepool

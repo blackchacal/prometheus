@@ -50,14 +50,15 @@ class BlackChacal_Prometheus_Model_Extension_File_Content_Xml_Configwriter exten
 
         switch ($type) {
             case 'modules':
-                $content = $this->_createModulesConfigXml();
+                $content = $this->_getModulesConfigXmlContent();
                 break;
             case 'general':
-                $content = $this->_createExtensionConfigXml();
+                $content = $this->_getExtensionConfigXmlContent();
                 break;
             case 'adminhtml':
                 break;
             case 'system':
+                $content = $this->_getExtensionSystemXmlContent();
                 break;
             default:
                 break;
@@ -71,18 +72,11 @@ class BlackChacal_Prometheus_Model_Extension_File_Content_Xml_Configwriter exten
      *
      * @return mixed|string
      */
-    private function _createModulesConfigXml()
+    private function _getModulesConfigXmlContent()
     {
         $path = $this->getSourceFilesPath('modules_config_xml.txt');
+        return $this->_getXmlFileContent($path);
 
-        try {
-            $xmlText = @$this->_filesystem->read($path);
-            $xmlText = $this->replacePlaceholders($xmlText);
-        } catch(Exception $e) {
-            Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
-        }
-
-        return $xmlText;
     }
 
     /**
@@ -90,10 +84,31 @@ class BlackChacal_Prometheus_Model_Extension_File_Content_Xml_Configwriter exten
      *
      * @return mixed|string
      */
-    private function _createExtensionConfigXml()
+    private function _getExtensionConfigXmlContent()
     {
         $path = $this->getSourceFilesPath('extension_config_xml.txt');
+        return $this->_getXmlFileContent($path);
+    }
 
+    /**
+     * Creates extension etc/system.xml file.
+     *
+     * @return mixed|string
+     */
+    private function _getExtensionSystemXmlContent()
+    {
+        $path = $this->getSourceFilesPath('extension_system_xml.txt');
+        return $this->_getXmlFileContent($path);
+    }
+
+    /**
+     * Returns the processed content of the xml file according to file source path.
+     *
+     * @param $path
+     * @return bool|mixed|string
+     */
+    private function _getXmlFileContent($path)
+    {
         try {
             $xmlText = @$this->_filesystem->read($path);
             $xmlText = $this->replacePlaceholders($xmlText);

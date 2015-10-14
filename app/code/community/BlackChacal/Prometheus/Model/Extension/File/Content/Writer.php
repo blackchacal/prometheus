@@ -88,13 +88,20 @@ class BlackChacal_Prometheus_Model_Extension_File_Content_Writer extends BlackCh
      * @var array
      */
     protected $_placeholders = array(
-        'Namespace'         => 'namespace',
-        'Module'            => 'name',
-        'Codepool'          => 'codepool',
-        'Version'           => 'version',
-        'Author'            => 'author',
-        'Email'             => 'author_email',
-        'Config_Node_Code'  => 'config_node_code',
+        'Namespace'             => 'namespace',
+        'Module'                => 'name',
+        'Codepool'              => 'codepool',
+        'Version'               => 'version',
+        'Author'                => 'author',
+        'Email'                 => 'author_email',
+        'Config_Node_Code'      => 'config_node_code',
+        'Config_Tab_Name'       => 'config_tab_name',
+        'Config_Tab_Label'      => 'config_tab_label',
+        'Config_Tab_Position'   => 'config_tab_position',
+        'Config_Section_Name'   => 'config_section_name',
+        'Config_Section_Label'  => 'config_section_label',
+        'Admin_Menu_Title'      => 'admin_menu_title',
+        'Admin_Menu_Position'   => 'admin_menu_position'
     );
 
     /**
@@ -156,6 +163,17 @@ class BlackChacal_Prometheus_Model_Extension_File_Content_Writer extends BlackCh
             }
         }
         return $newStr;
+    }
+
+    /**
+     * Processes the string conditionals and removes or not blocks of text.
+     *
+     * @param $str
+     */
+    private function processPlaceholderConditionals($str)
+    {
+        $newStr = $str;
+        preg_match_all("\{\{\@if \(([\s\S]+)\) \}\}/", $newStr, $conditionals);
     }
 
     /**

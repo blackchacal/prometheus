@@ -227,17 +227,25 @@ class BlackChacal_Prometheus_Model_Extension_Writer
     private function _createExtensionBaseFiles()
     {
         $data = array(
-            'namespace'         => $this->_namespace,
-            'name'              => $this->_extensionName,
-            'extensionFullName' => $this->_namespace.'_'.$this->_extensionName,
-            'codepool'          => $this->_codepool,
-            'version'           => $this->_model->getVersion(),
-            'license'           => $this->_model->getLicense(),
-            'author'            => $this->_model->getAuthorName(),
-            'author_email'      => $this->_model->getAuthorEmail(),
-            'config_node_code'  => $this->_model->getConfigNodeCode()
+            'namespace'             => $this->_namespace,
+            'name'                  => $this->_extensionName,
+            'extensionFullName'     => $this->_namespace.'_'.$this->_extensionName,
+            'codepool'              => $this->_codepool,
+            'version'               => $this->_model->getVersion(),
+            'license'               => $this->_model->getLicense(),
+            'author'                => $this->_model->getAuthorName(),
+            'author_email'          => $this->_model->getAuthorEmail(),
+            'config_node_code'      => $this->_model->getConfigNodeCode(),
+            'config_tab_name'       => $this->_model->getConfigTabName(),
+            'config_tab_label'      => $this->_model->getConfigTabName(),
+            'config_tab_position'   => $this->_model->getConfigTabPosition(),
+            'config_section_name'   => $this->_model->getConfigSectionName(),
+            'config_section_label'  => $this->_model->getConfigSectionLabel(),
+            'admin_menu_title'      => $this->_model->getAdminMenuTitle(),
+            'admin_menu_position'   => $this->_model->getAdminMenuPosition()
         );
 
         Mage::getModel('blackchacal_prometheus/extension_file_writer')->createExtensionConfigFile($data);
+        Mage::getModel('blackchacal_prometheus/extension_file_writer')->createExtensionSystemFile($data);
     }
 }
