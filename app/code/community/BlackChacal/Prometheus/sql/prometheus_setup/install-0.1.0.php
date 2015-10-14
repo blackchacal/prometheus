@@ -68,6 +68,9 @@ $table = $installer->getConnection()
     ->addColumn('config_tab_name', Varien_Db_Ddl_Table::TYPE_VARCHAR, 60, array(
         'nullable' => false,
     ), 'Configuration Tab Name')
+    ->addColumn('config_tab_label', Varien_Db_Ddl_Table::TYPE_VARCHAR, 100, array(
+        'nullable' => false,
+    ), 'Configuration Tab Label')
     ->addColumn('config_tab_position', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'nullable' => false,
     ), 'Configuration Tab Position')
