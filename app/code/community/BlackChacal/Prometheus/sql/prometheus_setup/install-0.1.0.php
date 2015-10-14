@@ -65,6 +65,9 @@ $table = $installer->getConnection()
     ->addColumn('action', Varien_Db_Ddl_Table::TYPE_VARCHAR, 10, array(
         'nullable' => false,
     ), 'Action')
+    ->addColumn('config_tab_type', Varien_Db_Ddl_Table::TYPE_VARCHAR, 60, array(
+        'nullable' => false,
+    ), 'Configuration Tab Type')
     ->addColumn('config_tab_name', Varien_Db_Ddl_Table::TYPE_VARCHAR, 60, array(
         'nullable' => false,
     ), 'Configuration Tab Name')
