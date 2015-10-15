@@ -1,4 +1,12 @@
 <config>
+    {{@if (config_tab_type != 'system') }}
+    <tabs>
+        <{{Config_Tab_Name}} translate="label" module="{{Config_Node_Code}}">
+            <label>{{Config_Tab_Label}}</label>
+            <sort_order>{{Config_Tab_Position}}</sort_order>
+        </{{Config_Tab_Name}}>
+    </tabs>
+    {{@endif}}
     <sections>
         <{{Config_Section_Name}} translate="label" module="{{Config_Node_Code}}">
             <label>{{Config_Section_Label}}</label>

@@ -157,6 +157,7 @@ class BlackChacal_Prometheus_Model_Extension_File_Content_Writer extends BlackCh
     protected function replacePlaceholders($str)
     {
         $newStr = $str;
+        $newStr = $this->_processPlaceholderConditionals($newStr, $this->_contentData);
         foreach($this->_placeholders as $placeholder => $value) {
             if (array_key_exists($value, $this->_contentData)) {
                 $newStr = str_replace("{{".$placeholder."}}", $this->_contentData[$value], $newStr);
@@ -170,10 +171,66 @@ class BlackChacal_Prometheus_Model_Extension_File_Content_Writer extends BlackCh
      *
      * @param $str
      */
-    private function processPlaceholderConditionals($str)
+    private function _processPlaceholderConditionals($str, $data)
     {
         $newStr = $str;
-        preg_match_all("\{\{\@if \(([\s\S]+)\) \}\}/", $newStr, $conditionals);
+        $conditions = array();
+        preg_match_all("/\{\{\@if \(([\s\S]+)\) \}\}/", $newStr, $conditionals);
+
+        if (count($conditionals[0]) > 0) {
+            if (count($conditionals[1]) > 0) {
+                foreach ($conditionals[1] as $condition) {
+                    $conditions[] = explode(' ', $condition);
+                }
+                foreach ($conditions as $condition) {
+                    if ($this->_processComparisons($data[$condition[0]], $condition[1], $condition[2])) {
+                        $newStr = preg_replace("/\s*\{\{\@if \([\s\S]+\) \}\}/", '', $newStr);
+                        $newStr = preg_replace("/\{\{@endif\}\}\s*/", '', $newStr);
+                    } else {
+                        $newStr = preg_replace("/\s*\{\{\@if \(([\s\S]+)\) \}\}((.|\n)*)\{\{@endif\}\}/", '', $newStr);
+                    }
+                }
+            }
+        }
+
+        return $newStr;
+    }
+
+    /**
+     * Gives the result of comparisons according to operator.
+     *
+     * @param $var
+     * @param $operator
+     * @param $value
+     */
+    private function _processComparisons($var, $operator, $value) {
+        switch ($operator) {
+            case '==':
+                return $var == trim(stripslashes($value), "'");
+                break;
+            case '===':
+                return $var === trim(stripslashes($value), "'");
+                break;
+            case '!=':
+            case '<>':
+                return $var != trim(stripslashes($value), "'");
+                break;
+            case '!==':
+                return $var !== trim(stripslashes($value), "'");
+                break;
+            case '<':
+                return $var < trim(stripslashes($value), "'");
+                break;
+            case '>':
+                return $var > trim(stripslashes($value), "'");
+                break;
+            case '<=':
+                return $var <= trim(stripslashes($value), "'");
+                break;
+            case '>=':
+                return $var >= trim(stripslashes($value), "'");
+                break;
+        }
     }
 
     /**
