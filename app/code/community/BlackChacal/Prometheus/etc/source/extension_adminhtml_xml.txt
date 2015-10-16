@@ -1,0 +1,24 @@
+<config>
+    <acl>
+        <all>
+            <title>Allow Everything</title>
+        </all>
+        <resources>
+            <admin>
+                <children>
+                    <system>
+                        <children>
+                            <config>
+                                <children>
+                                    <{{Config_Section_Name}} translate="title" module="{{Config_Node_Code}}">
+                                        <title>{{Config_Section_Label}}</title>
+                                    </{{Config_Section_Name}}>
+                                </children>
+                            </config>
+                        </children>
+                    </system>
+                </children>
+            </admin>
+        </resources>
+    </acl>
+</config>

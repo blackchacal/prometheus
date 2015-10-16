@@ -56,22 +56,8 @@ class BlackChacal_Prometheus_Model_Extension_File_Writer extends BlackChacal_Pro
      *
      * @param array $contentData
      */
-    public function createExtensionConfigFile(array $contentData) {
-        $contentData['type'] = 'xml';
-        $contentData['xmlType'] = 'general';
-        $contentObj = Mage::getModel('blackchacal_prometheus/extension_file_content_xml_configwriter', $contentData);
-        $contentObj->prepareFileContents();
-
-        $contents = $contentObj->getContents();
-        $filename = 'config.xml';
-        $filepath = $this->_getExtensionPath($contentData['codepool'], $contentData['namespace'], $contentData['name']).DS.self::ETC_FOLDER.DS.$filename;
-
-        try {
-            @$this->_filesystem->write($filepath, $contents);
-        } catch (Exception $e) {
-            Mage::log($e->getMessage(), null, Mage::helper('blackchacal_prometheus')->getLogFilename());
-            Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
-        }
+    public function createExtensionEtcConfigFile(array $contentData) {
+        $this->_createExtensionEtcFile('config', $contentData);
     }
 
     /**
@@ -79,27 +65,52 @@ class BlackChacal_Prometheus_Model_Extension_File_Writer extends BlackChacal_Pro
      *
      * @param array $contentData
      */
-    public function createExtensionSystemFile(array $contentData) {
+    public function createExtensionEtcSystemFile(array $contentData) {
         if (array_key_exists('config_section_name', $contentData) &&
             array_key_exists('config_section_label', $contentData) &&
             $contentData['config_section_name'] != '' &&
             $contentData['config_section_label'] != '') {
 
-            $contentData['type'] = 'xml';
-            $contentData['xmlType'] = 'system';
-            $contentObj = Mage::getModel('blackchacal_prometheus/extension_file_content_xml_configwriter', $contentData);
-            $contentObj->prepareFileContents();
+            $this->_createExtensionEtcFile('system', $contentData);
+        }
+    }
 
-            $contents = $contentObj->getContents();
-            $filename = 'system.xml';
-            $filepath = $this->_getExtensionPath($contentData['codepool'], $contentData['namespace'], $contentData['name']).DS.self::ETC_FOLDER.DS.$filename;
+    /**
+     * Creates extension adminhtml.xml file.
+     *
+     * @param array $contentData
+     */
+    public function createExtensionEtcAdminhtmlFile(array $contentData) {
+        if (array_key_exists('config_section_name', $contentData) &&
+            array_key_exists('config_section_label', $contentData) &&
+            $contentData['config_section_name'] != '' &&
+            $contentData['config_section_label'] != '') {
 
-            try {
-                @$this->_filesystem->write($filepath, $contents);
-            } catch (Exception $e) {
-                Mage::log($e->getMessage(), null, Mage::helper('blackchacal_prometheus')->getLogFilename());
-                Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
-            }
+            $this->_createExtensionEtcFile('adminhtml', $contentData);
+        }
+    }
+
+    /**
+     * Creates the extension etc/ files according to filename.
+     *
+     * @param $filename
+     */
+    private function _createExtensionEtcFile($filename, $contentData)
+    {
+        $contentData['type'] = 'xml';
+        $contentData['xmlType'] = $filename;
+        $contentObj = Mage::getModel('blackchacal_prometheus/extension_file_content_xml_configwriter', $contentData);
+        $contentObj->prepareFileContents();
+
+        $contents = $contentObj->getContents();
+        $filename = $filename.'.xml';
+        $filepath = $this->_getExtensionPath($contentData['codepool'], $contentData['namespace'], $contentData['name']).DS.self::ETC_FOLDER.DS.$filename;
+
+        try {
+            @$this->_filesystem->write($filepath, $contents);
+        } catch (Exception $e) {
+            Mage::log($e->getMessage(), null, Mage::helper('blackchacal_prometheus')->getLogFilename());
+            Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
         }
     }
 

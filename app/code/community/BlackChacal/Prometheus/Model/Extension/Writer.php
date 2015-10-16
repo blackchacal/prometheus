@@ -246,7 +246,8 @@ class BlackChacal_Prometheus_Model_Extension_Writer
             'admin_menu_position'   => $this->_model->getAdminMenuPosition()
         );
 
-        Mage::getModel('blackchacal_prometheus/extension_file_writer')->createExtensionConfigFile($data);
-        Mage::getModel('blackchacal_prometheus/extension_file_writer')->createExtensionSystemFile($data);
+        Mage::getModel('blackchacal_prometheus/extension_file_writer')->createExtensionEtcConfigFile($data);
+        Mage::getModel('blackchacal_prometheus/extension_file_writer')->createExtensionEtcSystemFile($data);
+        Mage::getModel('blackchacal_prometheus/extension_file_writer')->createExtensionEtcAdminhtmlFile($data);
     }
 }

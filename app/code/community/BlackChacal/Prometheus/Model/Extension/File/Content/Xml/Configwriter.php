@@ -52,10 +52,11 @@ class BlackChacal_Prometheus_Model_Extension_File_Content_Xml_Configwriter exten
             case 'modules':
                 $content = $this->_getModulesConfigXmlContent();
                 break;
-            case 'general':
+            case 'config':
                 $content = $this->_getExtensionConfigXmlContent();
                 break;
             case 'adminhtml':
+                $content = $this->_getExtensionAdminhtmlXmlContent();
                 break;
             case 'system':
                 $content = $this->_getExtensionSystemXmlContent();
@@ -68,7 +69,7 @@ class BlackChacal_Prometheus_Model_Extension_File_Content_Xml_Configwriter exten
     }
 
     /**
-     * Creates app/etc/modules extension config file.
+     * Creates app/etc/modules extension config file content.
      *
      * @return mixed|string
      */
@@ -80,7 +81,7 @@ class BlackChacal_Prometheus_Model_Extension_File_Content_Xml_Configwriter exten
     }
 
     /**
-     * Creates extension etc/config.xml file.
+     * Creates extension etc/config.xml file content.
      *
      * @return mixed|string
      */
@@ -91,13 +92,24 @@ class BlackChacal_Prometheus_Model_Extension_File_Content_Xml_Configwriter exten
     }
 
     /**
-     * Creates extension etc/system.xml file.
+     * Creates extension etc/system.xml file content.
      *
      * @return mixed|string
      */
     private function _getExtensionSystemXmlContent()
     {
         $path = $this->getSourceFilesPath('extension_system_xml.txt');
+        return $this->_getXmlFileContent($path);
+    }
+
+    /**
+     * Creates extension etc/adminhtml.xml file content.
+     *
+     * @return mixed|string
+     */
+    private function _getExtensionAdminhtmlXmlContent()
+    {
+        $path = $this->getSourceFilesPath('extension_adminhtml_xml.txt');
         return $this->_getXmlFileContent($path);
     }
 
