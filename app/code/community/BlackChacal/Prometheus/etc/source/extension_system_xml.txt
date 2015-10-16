@@ -20,5 +20,5 @@
 
             </groups>
         </{{Config_Section_Name}}>
-    <sections>
+    </sections>
 </config>
