@@ -70,18 +70,29 @@ class BlackChacal_Prometheus_Block_Adminhtml_Prometheus_Edit_Tab_General extends
             'method'    => 'post'
         ));
 
-        $fieldset = $form->addFieldset('base_fieldset', array(
+        $infoFieldset = $form->addFieldset('base_fieldset', array(
             'legend'    => Mage::helper('blackchacal_prometheus')->__('Extension Information'),
             'class'     => 'fieldset-wide',
+            'expanded'  => true,
+        ));
+        $configFieldset = $form->addFieldset('config_fieldset', array(
+            'legend'    => Mage::helper('blackchacal_prometheus')->__('Extension Configuration'),
+            'class'     => 'fieldset-wide',
+            'expanded'  => false,
+        ));
+        $menuFieldset = $form->addFieldset('menu_fieldset', array(
+            'legend'    => Mage::helper('blackchacal_prometheus')->__('Extension Admin Menu'),
+            'class'     => 'fieldset-wide',
+            'expanded'  => false,
         ));
 
         if ($model->getId()) {
-            $fieldset->addField('extension_id', 'hidden', array(
+            $infoFieldset->addField('extension_id', 'hidden', array(
                 'name' => 'id',
             ));
         }
 
-        $fieldset->addField('namespace', 'text', array(
+        $infoFieldset->addField('namespace', 'text', array(
             'name'      => 'namespace',
             'label'     => Mage::helper('blackchacal_prometheus')->__('Namespace'),
             'title'     => Mage::helper('blackchacal_prometheus')->__('Namespace'),
@@ -89,16 +100,14 @@ class BlackChacal_Prometheus_Block_Adminhtml_Prometheus_Edit_Tab_General extends
             'value'     => ($model->getNamespace()) ? $model->getNamespace() :
                             Mage::helper('blackchacal_prometheus')->getConfig('namespace')
         ));
-
-        $fieldset->addField('name', 'text', array(
+        $infoFieldset->addField('name', 'text', array(
             'name'      => 'name',
             'label'     => Mage::helper('blackchacal_prometheus')->__('Name'),
             'title'     => Mage::helper('blackchacal_prometheus')->__('Name'),
             'required'  => true,
             'value'     => $model->getName()
         ));
-
-        $fieldset->addField('codepool', 'select', array(
+        $infoFieldset->addField('codepool', 'select', array(
             'name'      => 'codepool',
             'label'     => Mage::helper('blackchacal_prometheus')->__('Code Pool'),
             'title'     => Mage::helper('blackchacal_prometheus')->__('Code Pool'),
@@ -106,8 +115,7 @@ class BlackChacal_Prometheus_Block_Adminhtml_Prometheus_Edit_Tab_General extends
             'value'     => $model->getCodepool(),
             'values'    => Mage::getModel('blackchacal_prometheus/system_config_source_codepool')->toOptionArray()
         ));
-
-        $fieldset->addField('version', 'text', array(
+        $infoFieldset->addField('version', 'text', array(
             'name'      => 'version',
             'label'     => Mage::helper('blackchacal_prometheus')->__('Version'),
             'title'     => Mage::helper('blackchacal_prometheus')->__('Version'),
@@ -115,8 +123,7 @@ class BlackChacal_Prometheus_Block_Adminhtml_Prometheus_Edit_Tab_General extends
             'value'     => ($model->getVersion()) ? $model->getVersion() :
                             Mage::helper('blackchacal_prometheus')->getConfig('version')
         ));
-
-        $fieldset->addField('license', 'textarea', array(
+        $infoFieldset->addField('license', 'textarea', array(
             'name'      => 'license',
             'label'     => Mage::helper('blackchacal_prometheus')->__('License'),
             'title'     => Mage::helper('blackchacal_prometheus')->__('License'),
@@ -124,39 +131,35 @@ class BlackChacal_Prometheus_Block_Adminhtml_Prometheus_Edit_Tab_General extends
             'value'     => ($model->getLicense()) ? $model->getLicense() :
                             Mage::helper('blackchacal_prometheus')->getConfig('license')
         ));
-
-        $fieldset->addField('author_name', 'text', array(
+        $infoFieldset->addField('author_name', 'text', array(
             'name'      => 'author_name',
             'label'     => Mage::helper('blackchacal_prometheus')->__('Author'),
             'title'     => Mage::helper('blackchacal_prometheus')->__('Author'),
             'required'  => false,
             'value'     => ''
         ));
-
-        $fieldset->addField('author_email', 'text', array(
+        $infoFieldset->addField('author_email', 'text', array(
             'name'      => 'author_email',
             'label'     => Mage::helper('blackchacal_prometheus')->__('Author Email'),
             'title'     => Mage::helper('blackchacal_prometheus')->__('Author Email'),
             'required'  => false,
             'value'     => ''
         ));
-
-        $fieldset->addField('action', 'select', array(
+        $infoFieldset->addField('action', 'select', array(
             'name'      => 'action',
             'label'     => Mage::helper('blackchacal_prometheus')->__('Action'),
             'title'     => Mage::helper('blackchacal_prometheus')->__('Action'),
             'required'  => false,
             'values'     => Mage::getModel('blackchacal_prometheus/system_config_source_action')->toOptionArray()
         ));
-
-        $fieldset->addField('config_node_code', 'text', array(
+        $infoFieldset->addField('config_node_code', 'text', array(
             'name'      => 'config_node_code',
             'label'     => Mage::helper('blackchacal_prometheus')->__('Config Node Code'),
             'title'     => Mage::helper('blackchacal_prometheus')->__('Config Node Code'),
             'required'  => true
         ));
 
-        $fieldset->addField('config_tab_type', 'select', array(
+        $configFieldset->addField('config_tab_type', 'select', array(
             'name'      => 'config_tab_type',
             'label'     => Mage::helper('blackchacal_prometheus')->__('Configuration Tab Type'),
             'title'     => Mage::helper('blackchacal_prometheus')->__('Configuration Tab Type'),
@@ -164,50 +167,59 @@ class BlackChacal_Prometheus_Block_Adminhtml_Prometheus_Edit_Tab_General extends
                 Mage::helper('blackchacal_prometheus')->getConfig('config_tab'),
             'values'    => Mage::getModel('blackchacal_prometheus/system_config_source_tabtypes')->toOptionArray()
         ));
-
-        $fieldset->addField('config_tab_name', 'text', array(
+        $configFieldset->addField('config_tab_name', 'text', array(
             'name' => 'config_tab_name',
             'label' => Mage::helper('blackchacal_prometheus')->__('Configuration Tab Name'),
             'title' => Mage::helper('blackchacal_prometheus')->__('Configuration Tab Name'),
             'value' => ($model->getConfigTabName()) ? $model->getConfigTabName() :
                 $this->getConfigTabName(Mage::helper('blackchacal_prometheus')->getConfig('config_tab'))
         ));
-
-        $fieldset->addField('config_tab_label', 'text', array(
+        $configFieldset->addField('config_tab_label', 'text', array(
             'name'      => 'config_tab_label',
             'label'     => Mage::helper('blackchacal_prometheus')->__('Configuration Tab Label'),
             'title'     => Mage::helper('blackchacal_prometheus')->__('Configuration Tab Label'),
             'value'     => ($model->getConfigTabLabel()) ? $model->getConfigTabLabel() :
                 $this->getConfigTabLabel(Mage::helper('blackchacal_prometheus')->getConfig('config_tab'))
         ));
-
-        $fieldset->addField('config_tab_position', 'text', array(
+        $configFieldset->addField('config_tab_position', 'text', array(
             'name'      => 'config_tab_position',
             'label'     => Mage::helper('blackchacal_prometheus')->__('Configuration Tab Position'),
             'title'     => Mage::helper('blackchacal_prometheus')->__('Configuration Tab Position'),
             'value'     => ($model->getConfigTabPosition()) ? $model->getConfigTabPosition() :
                 $this->getConfigTabPositions(Mage::helper('blackchacal_prometheus')->getConfig('config_tab'))
         ));
-
-        $fieldset->addField('config_section_name', 'text', array(
+        $configFieldset->addField('config_section_name', 'text', array(
             'name'      => 'config_section_name',
             'label'     => Mage::helper('blackchacal_prometheus')->__('Configuration Section Name'),
             'title'     => Mage::helper('blackchacal_prometheus')->__('Configuration Section Name')
         ));
-
-        $fieldset->addField('config_section_label', 'text', array(
+        $configFieldset->addField('config_section_label', 'text', array(
             'name'      => 'config_section_label',
             'label'     => Mage::helper('blackchacal_prometheus')->__('Configuration Section Label'),
             'title'     => Mage::helper('blackchacal_prometheus')->__('Configuration Section Label')
         ));
 
-        $fieldset->addField('admin_menu_title', 'text', array(
+        $menuFieldset->addField('admin_menu_parent', 'text', array(
+            'name'      => 'admin_menu_parent',
+            'label'     => Mage::helper('blackchacal_prometheus')->__('Admin Menu Parent'),
+            'title'     => Mage::helper('blackchacal_prometheus')->__('Admin Menu Parent')
+        ));
+        $menuFieldset->addField('admin_menu_name', 'text', array(
+            'name'      => 'admin_menu_name',
+            'label'     => Mage::helper('blackchacal_prometheus')->__('Admin Menu Name'),
+            'title'     => Mage::helper('blackchacal_prometheus')->__('Admin Menu Name')
+        ));
+        $menuFieldset->addField('admin_menu_title', 'text', array(
             'name'      => 'admin_menu_title',
             'label'     => Mage::helper('blackchacal_prometheus')->__('Admin Menu Title'),
             'title'     => Mage::helper('blackchacal_prometheus')->__('Admin Menu Title')
         ));
-
-        $fieldset->addField('admin_menu_position', 'text', array(
+        $menuFieldset->addField('admin_menu_action', 'text', array(
+            'name'      => 'admin_menu_action',
+            'label'     => Mage::helper('blackchacal_prometheus')->__('Admin Menu Action'),
+            'title'     => Mage::helper('blackchacal_prometheus')->__('Admin Menu Action')
+        ));
+        $menuFieldset->addField('admin_menu_position', 'text', array(
             'name'      => 'admin_menu_position',
             'label'     => Mage::helper('blackchacal_prometheus')->__('Admin Menu Position'),
             'title'     => Mage::helper('blackchacal_prometheus')->__('Admin Menu Position')
