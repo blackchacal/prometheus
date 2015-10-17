@@ -100,7 +100,10 @@ class BlackChacal_Prometheus_Model_Extension_File_Content_Writer extends BlackCh
         'Config_Tab_Position'   => 'config_tab_position',
         'Config_Section_Name'   => 'config_section_name',
         'Config_Section_Label'  => 'config_section_label',
+        'Admin_Menu_Parent'     => 'admin_menu_parent',
+        'Admin_Menu_Name'       => 'admin_menu_name',
         'Admin_Menu_Title'      => 'admin_menu_title',
+        'Admin_Menu_Action'     => 'admin_menu_action',
         'Admin_Menu_Position'   => 'admin_menu_position'
     );
 
@@ -175,7 +178,7 @@ class BlackChacal_Prometheus_Model_Extension_File_Content_Writer extends BlackCh
     {
         $newStr = $str;
         $conditions = array();
-        preg_match_all("/\{\{\@if \(([\s\S]+)\) \}\}/", $newStr, $conditionals);
+        preg_match_all("/\{\{\@if \((\w+\s.{2,3}\s.+)\) \}\}/", $newStr, $conditionals);
 
         if (count($conditionals[0]) > 0) {
             if (count($conditionals[1]) > 0) {
@@ -184,12 +187,14 @@ class BlackChacal_Prometheus_Model_Extension_File_Content_Writer extends BlackCh
                 }
                 foreach ($conditions as $condition) {
                     if ($this->_processComparisons($data[$condition[0]], $condition[1], $condition[2])) {
-                        $newStr = preg_replace("/\s*\{\{\@if \([\s\S]+\) \}\}/", '', $newStr);
-                        $newStr = preg_replace("/\{\{@endif\}\}\s*/", '', $newStr);
+                        $pattern = "/\s*\{\{\@if \(".implode(' ', $condition)."\) \}\}/";
+                        $newStr = preg_replace($pattern, '', $newStr);
                     } else {
-                        $newStr = preg_replace("/\s*\{\{\@if \(([\s\S]+)\) \}\}((.|\n)*)\{\{@endif\}\}/", '', $newStr);
+                        $pattern = "/\s*\{\{\@if \(".implode(' ', $condition)."\) \}\}((.|\n)*?)\{\{@endif\}\}/";
+                        $newStr = preg_replace($pattern, '', $newStr);
                     }
                 }
+                $newStr = preg_replace("/\{\{@endif\}\}\s*/", '', $newStr);
             }
         }
 

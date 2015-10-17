@@ -242,7 +242,10 @@ class BlackChacal_Prometheus_Model_Extension_Writer
             'config_tab_position'   => $this->_model->getConfigTabPosition(),
             'config_section_name'   => $this->_model->getConfigSectionName(),
             'config_section_label'  => $this->_model->getConfigSectionLabel(),
+            'admin_menu_parent'     => $this->_model->getAdminMenuParent(),
+            'admin_menu_name'       => $this->_model->getAdminMenuName(),
             'admin_menu_title'      => $this->_model->getAdminMenuTitle(),
+            'admin_menu_action'     => $this->_model->getAdminMenuAction(),
             'admin_menu_position'   => $this->_model->getAdminMenuPosition()
         );
 
