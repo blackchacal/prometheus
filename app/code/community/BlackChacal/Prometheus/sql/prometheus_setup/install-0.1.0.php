@@ -65,6 +65,9 @@ $table = $installer->getConnection()
     ->addColumn('action', Varien_Db_Ddl_Table::TYPE_VARCHAR, 10, array(
         'nullable' => false,
     ), 'Action')
+    ->addColumn('config_node_code', Varien_Db_Ddl_Table::TYPE_VARCHAR, 100, array(
+        'nullable' => false,
+    ), 'Configuration Node Code')
     ->addColumn('config_tab_type', Varien_Db_Ddl_Table::TYPE_VARCHAR, 60, array(
         'nullable' => false,
     ), 'Configuration Tab Type')
@@ -77,21 +80,27 @@ $table = $installer->getConnection()
     ->addColumn('config_tab_position', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'nullable' => false,
     ), 'Configuration Tab Position')
-    ->addColumn('admin_menu_title', Varien_Db_Ddl_Table::TYPE_VARCHAR, 60, array(
-        'nullable' => true,
-    ), 'Admin Menu Title')
-    ->addColumn('admin_menu_position', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
-        'nullable' => true,
-    ), 'Admin Menu Position')
-    ->addColumn('config_node_code', Varien_Db_Ddl_Table::TYPE_VARCHAR, 100, array(
-        'nullable' => false,
-    ), 'Configuration Node Code')
     ->addColumn('config_section_name', Varien_Db_Ddl_Table::TYPE_VARCHAR, 100, array(
         'nullable' => false,
     ), 'Configuration Section Name')
     ->addColumn('config_section_label', Varien_Db_Ddl_Table::TYPE_VARCHAR, 150, array(
         'nullable' => false,
-    ), 'Configuration Section Label');
+    ), 'Configuration Section Label')
+    ->addColumn('admin_menu_parent', Varien_Db_Ddl_Table::TYPE_VARCHAR, 60, array(
+        'nullable' => true,
+    ), 'Admin Menu Parent')
+    ->addColumn('admin_menu_name', Varien_Db_Ddl_Table::TYPE_VARCHAR, 60, array(
+        'nullable' => true,
+    ), 'Admin Menu Name')
+    ->addColumn('admin_menu_title', Varien_Db_Ddl_Table::TYPE_VARCHAR, 100, array(
+        'nullable' => true,
+    ), 'Admin Menu Title')
+    ->addColumn('admin_menu_action', Varien_Db_Ddl_Table::TYPE_VARCHAR, 60, array(
+        'nullable' => true,
+    ), 'Admin Menu Action')
+    ->addColumn('admin_menu_position', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
+        'nullable' => true,
+    ), 'Admin Menu Position');
 $installer->getConnection()->createTable($table);
 
 // Create "prometheus_config_group_data" table associated to "Config_Group" model.
