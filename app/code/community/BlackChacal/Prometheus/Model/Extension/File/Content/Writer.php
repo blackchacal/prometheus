@@ -182,15 +182,37 @@ class BlackChacal_Prometheus_Model_Extension_File_Content_Writer extends BlackCh
 
         if (count($conditionals[0]) > 0) {
             if (count($conditionals[1]) > 0) {
+                // Extract all the conditions from if statement
                 foreach ($conditionals[1] as $condition) {
-                    $conditions[] = explode(' ', $condition);
+                    preg_match_all("/(&&|\|\|)/", $condition, $operators);
+                    $condition = preg_split("/(&&|\|\|)/", $condition);
+                    if (count($condition) <= 1) {
+                        $conditions[] = explode(' ', $condition[0]);
+                    } else {
+                        $subconditions = array();
+                        $i = 0;
+                        foreach ($condition as $subcondition) {
+                            $subcondition = explode(' ', trim($subcondition));
+                            if ($i < (count($condition) - 1)) {
+                                $subcondition['operator'] = $operators[0][$i];
+                            }
+                            $subconditions[] = $subcondition;
+                            $i++;
+                        }
+                        $conditions[] = $subconditions;
+                        var_dump($conditions);
+                    }
                 }
+
+                // Remove if statements and/or if blocks from string
                 foreach ($conditions as $condition) {
-                    if ($this->_processComparisons($data[$condition[0]], $condition[1], $condition[2])) {
-                        $pattern = "/\s*\{\{\@if \(".implode(' ', $condition)."\) \}\}/";
+                    $conditionStr = $this->_buildConditionString($condition);
+
+                    if ($this->_processMultipleComparisons($condition, $data)) {
+                        $pattern = "/\s*\{\{\@if \(".$conditionStr."\) \}\}/";
                         $newStr = preg_replace($pattern, '', $newStr);
                     } else {
-                        $pattern = "/\s*\{\{\@if \(".implode(' ', $condition)."\) \}\}((.|\n)*?)\{\{@endif\}\}/";
+                        $pattern = "/\s*\{\{\@if \(".$conditionStr."\) \}\}((.|\n)*?)\{\{@endif\}\}/";
                         $newStr = preg_replace($pattern, '', $newStr);
                     }
                 }
@@ -202,13 +224,70 @@ class BlackChacal_Prometheus_Model_Extension_File_Content_Writer extends BlackCh
     }
 
     /**
+     * Process multiple conditional statements "concatenated" by '&&' or '||'.
+     *
+     * @param $conditions
+     * @param $data
+     * @return bool
+     */
+    private function _processMultipleComparisons($conditions, $data)
+    {
+        if (is_array($conditions[0])) {
+            for ($i = 0, $size = (count($conditions) - 1); $i < $size; $i++) {
+                if (!isset($result)) {
+                    $result = $this->_concatComparisons($conditions[$i]['operator'], $conditions[$i], $conditions[$i+1], $data);
+                } else {
+                    $result = $this->_concatComparisons($conditions[$i]['operator'], $result, $conditions[$i+1], $data);
+                }
+            }
+        } else {
+            return $this->_processComparisons($data[$conditions[0]], $conditions[1], $conditions[2]);
+        }
+
+        return $result;
+    }
+
+    /**
+     * "Concatenate" boolean expressions.
+     *
+     * @param $operation
+     * @param $comparison1
+     * @param $comparison2
+     * @return bool
+     */
+    private function _concatComparisons($operation, $comparison1, $comparison2, $data)
+    {
+        if (is_bool($comparison1)) {
+            $leftComp = $comparison1;
+        } elseif (is_array($comparison1)) {
+            $leftComp = $this->_processComparisons($data[$comparison1[0]], $comparison1[1], $comparison1[2]);
+        }
+
+        if (is_bool($comparison2)) {
+            $rightComp = $comparison2;
+        } elseif (is_array($comparison2)) {
+            $rightComp = $this->_processComparisons($data[$comparison2[0]], $comparison2[1], $comparison2[2]);
+        }
+
+        switch ($operation) {
+            case '||':
+                return $leftComp || $rightComp;
+                break;
+            default:
+                return $leftComp && $rightComp;
+                break;
+        }
+    }
+
+    /**
      * Gives the result of comparisons according to operator.
      *
      * @param $var
      * @param $operator
      * @param $value
      */
-    private function _processComparisons($var, $operator, $value) {
+    private function _processComparisons($var, $operator, $value)
+    {
         switch ($operator) {
             case '==':
                 return $var == trim(stripslashes($value), "'");
@@ -236,6 +315,27 @@ class BlackChacal_Prometheus_Model_Extension_File_Content_Writer extends BlackCh
                 return $var >= trim(stripslashes($value), "'");
                 break;
         }
+    }
+
+    /**
+     * Create condition string to be used on logical conditions regex.
+     *
+     * @param $condition
+     * @return string
+     */
+    private function _buildConditionString($condition)
+    {
+        $conditionStr = '';
+        if (is_array($condition[0])) {
+            foreach ($condition as $subcondition) {
+                $conditionStr .= ' '.implode(' ', $subcondition);
+            }
+        } else {
+            $conditionStr = implode(' ', $condition);
+        }
+        $conditionStr = trim($conditionStr);
+
+        return $conditionStr;
     }
 
     /**

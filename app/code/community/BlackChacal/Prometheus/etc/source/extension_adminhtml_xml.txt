@@ -31,13 +31,11 @@
                     {{@endif}}
                     <system>
                         <children>
-                            {{@if (admin_menu_name != '') }}
-                            {{@if (admin_menu_parent == 'system') }}
+                            {{@if (admin_menu_name != '' && admin_menu_parent == 'system') }}
                             <{{Admin_Menu_Name}} translate="title" module="{{Config_Node_Code}}">
                                 <title>{{Admin_Menu_Title}}</title>
                                 <sort_order>{{Admin_Menu_Position}}</sort_order>
                             </{{Admin_Menu_Name}}>
-                            {{@endif}}
                             {{@endif}}
                             <config>
                                 <children>
