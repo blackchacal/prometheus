@@ -52,7 +52,7 @@ class BlackChacal_Prometheus_Model_Extension_File_Writer extends BlackChacal_Pro
     }
 
     /**
-     * Creates extension config.xml file.
+     * Creates extension etc/config.xml file.
      *
      * @param array $contentData
      */
@@ -61,7 +61,7 @@ class BlackChacal_Prometheus_Model_Extension_File_Writer extends BlackChacal_Pro
     }
 
     /**
-     * Creates extension system.xml file.
+     * Creates extension etc/system.xml file.
      *
      * @param array $contentData
      */
@@ -76,7 +76,7 @@ class BlackChacal_Prometheus_Model_Extension_File_Writer extends BlackChacal_Pro
     }
 
     /**
-     * Creates extension adminhtml.xml file.
+     * Creates extension etc/adminhtml.xml file.
      *
      * @param array $contentData
      */
@@ -88,6 +88,19 @@ class BlackChacal_Prometheus_Model_Extension_File_Writer extends BlackChacal_Pro
 
             $this->_createExtensionEtcFile('adminhtml', $contentData);
         }
+    }
+
+    /**
+     * Creates extension Helper/Data.php file.
+     *
+     * @param array $contentData
+     */
+    public function createExtensionHelperDataFile(array $contentData) {
+        $contentData['className'] = $contentData['extensionFullName'].'_Helper_Data';
+        $contentData['extends'] = 'Mage_Core_Helper_Data';
+        $contentData['implements'] = '';
+        $contentData['contents'] = '';
+        $this->_createExtensionHelperFile('Data', $contentData);
     }
 
     /**
@@ -105,6 +118,29 @@ class BlackChacal_Prometheus_Model_Extension_File_Writer extends BlackChacal_Pro
         $contents = $contentObj->getContents();
         $filename = $filename.'.xml';
         $filepath = $this->_getExtensionPath($contentData['codepool'], $contentData['namespace'], $contentData['name']).DS.self::ETC_FOLDER.DS.$filename;
+
+        try {
+            @$this->_filesystem->write($filepath, $contents);
+        } catch (Exception $e) {
+            Mage::log($e->getMessage(), null, Mage::helper('blackchacal_prometheus')->getLogFilename());
+            Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+        }
+    }
+
+    /**
+     * Creates the extension Helper/ files according to filename.
+     *
+     * @param $filename
+     */
+    private function _createExtensionHelperFile($filename, $contentData)
+    {
+        $contentData['type'] = 'php';
+        $contentObj = Mage::getModel('blackchacal_prometheus/extension_file_content_php_classwriter', $contentData);
+        $contentObj->prepareFileContents();
+
+        $contents = $contentObj->getContents();
+        $filename = $filename.'.php';
+        $filepath = $this->_getExtensionPath($contentData['codepool'], $contentData['namespace'], $contentData['name']).DS.self::HELPER_FOLDER.DS.$filename;
 
         try {
             @$this->_filesystem->write($filepath, $contents);

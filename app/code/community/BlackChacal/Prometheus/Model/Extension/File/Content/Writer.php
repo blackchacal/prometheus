@@ -148,7 +148,7 @@ class BlackChacal_Prometheus_Model_Extension_File_Content_Writer extends BlackCh
      */
     protected function getLicenseText()
     {
-        return "<!-- {$this->_eol}".$this->replacePlaceholders($this->_contentData['license'])."{$this->_eol} --> {$this->_eol}";
+        return $this->wrapStringIntoCommentPhpBlock($this->replacePlaceholders($this->_contentData['license']), $this->_contentData['type']);
     }
 
     /**
@@ -347,5 +347,27 @@ class BlackChacal_Prometheus_Model_Extension_File_Content_Writer extends BlackCh
     protected function getSourceFilesPath($filename)
     {
         return $this->_helper->getSourceFilesDir().DS.$filename; //$path;
+    }
+
+    /**
+     * Wrap a string into a comment block.
+     * @param $str
+     * @param $type
+     * @return string
+     */
+    protected function wrapStringIntoCommentPhpBlock($str, $type)
+    {
+        if ($type == 'xml') {
+            $newStr = "<!-- {$this->_eol}".$str."{$this->_eol} --> {$this->_eol}";
+        } else {
+            $newStr = "/**{$this->_eol}";
+            $lines = explode($this->_eol, $str);
+            foreach ($lines as $line) {
+                $newStr .= "  * ".$line.$this->_eol;
+            }
+            $newStr .= "  */ {$this->_eol}";
+        }
+
+        return $newStr;
     }
 }

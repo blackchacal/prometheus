@@ -252,5 +252,6 @@ class BlackChacal_Prometheus_Model_Extension_Writer
         Mage::getModel('blackchacal_prometheus/extension_file_writer')->createExtensionEtcConfigFile($data);
         Mage::getModel('blackchacal_prometheus/extension_file_writer')->createExtensionEtcSystemFile($data);
         Mage::getModel('blackchacal_prometheus/extension_file_writer')->createExtensionEtcAdminhtmlFile($data);
+        Mage::getModel('blackchacal_prometheus/extension_file_writer')->createExtensionHelperDataFile($data);
     }
 }
