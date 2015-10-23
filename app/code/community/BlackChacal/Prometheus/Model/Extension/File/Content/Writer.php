@@ -200,7 +200,6 @@ class BlackChacal_Prometheus_Model_Extension_File_Content_Writer extends BlackCh
                             $i++;
                         }
                         $conditions[] = $subconditions;
-                        var_dump($conditions);
                     }
                 }
 
