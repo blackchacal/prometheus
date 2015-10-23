@@ -116,6 +116,13 @@ class BlackChacal_Prometheus_Adminhtml_PrometheusController extends Mage_Adminht
                             $extensionModel->save();
                         }
                         break;
+                    case 'uninstall':
+                        $uninstalled = $extensionModel->uninstall();
+                        if ($uninstalled) {
+                            $extensionModel->setInstalled(false);
+                            $extensionModel->save();
+                        }
+                        break;
                     default:
                         break;
                 }

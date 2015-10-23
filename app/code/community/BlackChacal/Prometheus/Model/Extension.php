@@ -50,8 +50,13 @@ class BlackChacal_Prometheus_Model_Extension extends Mage_Core_Model_Abstract
      */
     public function uninstall()
     {
-        Mage::getModel('blackchacal_prometheus/extension_writer', array(
-            'extensionModel' => $this,
-        ))->deleteExtensionFolderFiles();
+        try {
+            Mage::getModel('blackchacal_prometheus/extension_writer', array(
+                'extensionModel' => $this,
+            ))->deleteExtensionFolderFiles();
+            return true;
+        } catch (Exception $e) {
+            return false;
+        }
     }
 }
