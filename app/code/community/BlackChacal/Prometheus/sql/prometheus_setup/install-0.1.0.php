@@ -65,6 +65,12 @@ $table = $installer->getConnection()
     ->addColumn('action', Varien_Db_Ddl_Table::TYPE_VARCHAR, 10, array(
         'nullable' => false,
     ), 'Action')
+    ->addColumn('rewrite', Varien_Db_Ddl_Table::TYPE_BOOLEAN, null, array(
+        'nullable' => false,
+    ), 'Rewrite')
+    ->addColumn('installed', Varien_Db_Ddl_Table::TYPE_BOOLEAN, null, array(
+        'nullable' => false,
+    ), 'Installed')
     ->addColumn('config_node_code', Varien_Db_Ddl_Table::TYPE_VARCHAR, 100, array(
         'nullable' => false,
     ), 'Configuration Node Code')
@@ -75,10 +81,10 @@ $table = $installer->getConnection()
         'nullable' => false,
     ), 'Configuration Tab Name')
     ->addColumn('config_tab_label', Varien_Db_Ddl_Table::TYPE_VARCHAR, 100, array(
-        'nullable' => false,
+        'nullable' => true,
     ), 'Configuration Tab Label')
     ->addColumn('config_tab_position', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
-        'nullable' => false,
+        'nullable' => true,
     ), 'Configuration Tab Position')
     ->addColumn('config_section_name', Varien_Db_Ddl_Table::TYPE_VARCHAR, 100, array(
         'nullable' => false,

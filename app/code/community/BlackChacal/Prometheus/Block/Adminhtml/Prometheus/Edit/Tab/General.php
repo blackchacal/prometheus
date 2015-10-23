@@ -152,12 +152,35 @@ class BlackChacal_Prometheus_Block_Adminhtml_Prometheus_Edit_Tab_General extends
             'required'  => false,
             'values'     => Mage::getModel('blackchacal_prometheus/system_config_source_action')->toOptionArray()
         ));
+        $infoFieldset->addField('rewrite', 'select', array(
+            'name'      => 'rewrite',
+            'label'     => Mage::helper('blackchacal_prometheus')->__('Rewrite Files'),
+            'title'     => Mage::helper('blackchacal_prometheus')->__('Rewrite Files'),
+            'required'  => false,
+            'values'    => Mage::getModel('adminhtml/system_config_source_yesno')->toOptionArray()
+        ));
+        $infoFieldset->addField('installed', 'text', array(
+            'name'      => 'installed',
+            'label'     => Mage::helper('blackchacal_prometheus')->__('Installed'),
+            'title'     => Mage::helper('blackchacal_prometheus')->__('Installed'),
+            'required'  => false,
+            'readonly'  => true,
+            'value'     => $model->getInstalled()
+        ));
         $infoFieldset->addField('config_node_code', 'text', array(
             'name'      => 'config_node_code',
             'label'     => Mage::helper('blackchacal_prometheus')->__('Config Node Code'),
             'title'     => Mage::helper('blackchacal_prometheus')->__('Config Node Code'),
             'required'  => true
         ));
+
+        // Add fields dependencies
+        $this->setChild('form_after', $this->getLayout()
+            ->createBlock('adminhtml/widget_form_element_dependence')
+            ->addFieldMap('action', 'action')
+            ->addFieldMap('rewrite', 'rewrite')
+            ->addFieldDependence('rewrite', 'action', 'install')
+        );
 
         $configFieldset->addField('config_tab_type', 'select', array(
             'name'      => 'config_tab_type',
