@@ -101,10 +101,15 @@ class BlackChacal_Prometheus_Model_Extension_Writer
      * Install the extension by creating its files and folders
      */
     public function install() {
-        $this->_createExtensionMainFolder();
-        $this->_createExtensionBaseFolders();
-        $this->_createModulesConfigFile();
-        $this->_createExtensionBaseFiles();
+        $installed = $this->_model->getInstalled();
+        $rewrite = $this->_model->getRewrite();
+
+        if (!$installed || $rewrite) {
+            $this->_createExtensionMainFolder();
+            $this->_createExtensionBaseFolders();
+            $this->_createModulesConfigFile();
+            $this->_createExtensionBaseFiles();
+        }
     }
 
     /**

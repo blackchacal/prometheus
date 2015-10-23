@@ -34,9 +34,14 @@ class BlackChacal_Prometheus_Model_Extension extends Mage_Core_Model_Abstract
      */
     public function install()
     {
-        Mage::getModel('blackchacal_prometheus/extension_writer', array(
-            'extensionModel' => $this,
-        ))->install();
+        try {
+            Mage::getModel('blackchacal_prometheus/extension_writer', array(
+                'extensionModel' => $this,
+            ))->install();
+            return true;
+        } catch (Exception $e) {
+            return false;
+        }
     }
 
     /**
