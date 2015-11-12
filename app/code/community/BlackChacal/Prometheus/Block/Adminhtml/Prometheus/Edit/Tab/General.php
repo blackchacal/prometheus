@@ -112,7 +112,8 @@ class BlackChacal_Prometheus_Block_Adminhtml_Prometheus_Edit_Tab_General extends
             'label'     => Mage::helper('blackchacal_prometheus')->__('Code Pool'),
             'title'     => Mage::helper('blackchacal_prometheus')->__('Code Pool'),
             'required'  => true,
-            'value'     => $model->getCodepool(),
+            'value'     => ($model->getCodepool()) ? $model->getCodepool() :
+                            Mage::helper('blackchacal_prometheus')->getConfig('codepool'),
             'values'    => Mage::getModel('blackchacal_prometheus/system_config_source_codepool')->toOptionArray()
         ));
         $infoFieldset->addField('version', 'text', array(
@@ -150,7 +151,9 @@ class BlackChacal_Prometheus_Block_Adminhtml_Prometheus_Edit_Tab_General extends
             'label'     => Mage::helper('blackchacal_prometheus')->__('Action'),
             'title'     => Mage::helper('blackchacal_prometheus')->__('Action'),
             'required'  => false,
-            'values'     => Mage::getModel('blackchacal_prometheus/system_config_source_action')->toOptionArray()
+            'value'     => ($model->getAction()) ? $model->getAction() :
+                            Mage::helper('blackchacal_prometheus')->getConfig('action'),
+            'values'    => Mage::getModel('blackchacal_prometheus/system_config_source_action')->toOptionArray()
         ));
         $infoFieldset->addField('rewrite', 'select', array(
             'name'      => 'rewrite',
