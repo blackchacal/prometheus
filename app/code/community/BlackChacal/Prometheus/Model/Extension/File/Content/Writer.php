@@ -345,7 +345,7 @@ class BlackChacal_Prometheus_Model_Extension_File_Content_Writer extends BlackCh
      */
     protected function getSourceFilesPath($filename)
     {
-        return $this->_helper->getSourceFilesDir().DS.$filename; //$path;
+        return $this->_helper->getSourceFilesDir().DS.$filename;
     }
 
     /**
