@@ -37,19 +37,19 @@ class BlackChacal_Prometheus_Model_System_Config_Source_Action
         $options = array();
         $options[] = array(
             'value' => 'save',
-            'label' => $helper->__('Only save module to database.')
+            'label' => $helper->__('Save extension.')
         );
 //        $options[] = array(
-//            'value' => 'archive',
-//            'label' => $helper->__('Create archive to install later.')
+//            'value' => 'package',
+//            'label' => $helper->__('Save & Package extension.')
 //        );
         $options[] = array(
             'value' => 'install',
-            'label' => $helper->__('Install new extension.')
+            'label' => $helper->__('Save & Install extension.')
         );
         $options[] = array(
             'value' => 'uninstall',
-            'label' => $helper->__('Uninstall extension.')
+            'label' => $helper->__('Save & Uninstall extension.')
         );
 
         return $options;

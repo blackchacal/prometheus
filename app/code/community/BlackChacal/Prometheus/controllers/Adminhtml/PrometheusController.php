@@ -107,7 +107,7 @@ class BlackChacal_Prometheus_Adminhtml_PrometheusController extends Mage_Adminht
                 $extensionModel->save();
 
                 switch ($postData['action']) {
-                    case 'archive':
+                    case 'package':
                         break;
                     case 'install':
                         $installed = $extensionModel->install();
