@@ -127,7 +127,7 @@ class BlackChacal_Prometheus_Adminhtml_PrometheusController extends Mage_Adminht
                         break;
                 }
 
-                Mage::getSingleton('adminhtml/session')->addSuccess($this->__('The extension has been saved.'));
+                Mage::getSingleton('adminhtml/session')->addSuccess($this->__('The extension was saved.'));
                 $this->_redirect('*/*/');
 
                 return;
