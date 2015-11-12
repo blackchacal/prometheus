@@ -183,5 +183,6 @@ prometheus_files/
 ################
 
 !app/etc/modules/BlackChacal_*
+!app/locale/en_US/BlackChacal_*
 !app/design/adminhtml/default/default/layout/blackchacal_prometheus.xml
 !app/code/community/BlackChacal
