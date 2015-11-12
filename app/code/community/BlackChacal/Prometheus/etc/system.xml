@@ -51,7 +51,7 @@
                             <show_in_website>0</show_in_website>
                             <show_in_store>0</show_in_store>
                         </enabled>
-                        <help translate="label,comment" module="blackchacal_prometheus">
+                        <!--<help translate="label,comment" module="blackchacal_prometheus">
                             <label>Enable Help Tab</label>
                             <comment><![CDATA[Enable/Disable the help tab on extension edit pages.]]></comment>
                             <frontend_type>select</frontend_type>
@@ -60,7 +60,7 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>0</show_in_website>
                             <show_in_store>0</show_in_store>
-                        </help>
+                        </help>-->
                     </fields>
                 </general>
                 <default_extension translate="label" module="blackchacal_prometheus">
