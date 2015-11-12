@@ -172,7 +172,16 @@ skin/frontend/enterprise
 skin/install/
 var/
 
+# Custom project Ignore #
+#########################
+
+app/etc/modules/
+app/code/community/
+prometheus_files/
+
 # Don't Ignore #
 ################
 
+!app/etc/modules/BlackChacal_*
 !app/design/adminhtml/default/default/layout/blackchacal_prometheus.xml
+!app/code/community/BlackChacal
