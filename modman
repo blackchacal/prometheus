@@ -1,0 +1,6 @@
+# Modman file for BlackChacal_Prometheus Extension
+
+app/code/community/BlackChacal/Prometheus    app/code/community/BlackChacal/Prometheus
+app/etc/modules/BlackChacal_Prometheus.xml    app/etc/modules/BlackChacal_Prometheus.xml
+app/locale/en_US/BlackChacal_Prometheus.csv    app/locale/en_US/BlackChacal_Prometheus.csv
+app/design/adminhtml/default/default/layout/blackchacal_prometheus.xml    app/design/adminhtml/default/default/layout/blackchacal_prometheus.xml
