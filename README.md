@@ -1,4 +1,4 @@
-# Prometheus - Magento Extension
+# Prometheus - Magento Extension Creator
 
 ## Introduction
 
@@ -9,6 +9,7 @@ This extension was named after Prometheus, because it's main goal is to bring ex
 by easing the process of Magento extension creation. It should empower the developers to enrich the ecosystem, with even more powerful extensions.
 
 ## Purpose
+
 This extension will allow the creation of new Magento extensions without too much code. There's several extensions out there which allow you to do the same.
 By no means Prometheus is the best option. It's another one, that hopefully, will serve your needs and ease your workflow.
 Some aspects of Prometheus were inspired by the extension [Ultimate Module Creator](https://github.com/tzyganu/UMC1.9), from tzyganu.
