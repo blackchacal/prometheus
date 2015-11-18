@@ -1,4 +1,12 @@
-# Prometheus - Magento Extension
+# Prometheus - Magento Extension Creator
+
+## Introduction
+
+Prometheus is a Titan in Greek mythology credited for being the creator of mankind and for gifting them with fire stolen from Mount Olympus.
+As the bringer of fire, Prometheus represents knowledge and ingenuity. It also represents the forces of creation.
+
+This extension was named after Prometheus, because it's main goal is to bring extra fire to the Magento developer community,
+by easing the process of Magento extension creation. It should empower the developers to enrich the ecosystem, with even more powerful extensions.
 
 ## Introduction
 
