@@ -145,4 +145,51 @@ class BlackChacal_Prometheus_Helper_Data extends Mage_Core_Helper_Data
     {
         return preg_replace('/[^ \w+]/', '', $str);
     }
+
+    /**
+     * Remove all characters that aren't numbers and ".".
+     *
+     * @param $str
+     */
+    public function escapeVersionStrings($str)
+    {
+        return preg_replace('/[^0-9.+]/', '', $str);
+    }
+
+    /**
+     * Remove all characters that aren't numbers.
+     *
+     * @param $str
+     */
+    public function escapeNumberStrings($str)
+    {
+        return preg_replace('/[^0-9+]/', '', $str);
+    }
+
+    /**
+     * Escapes the extension model strings for invalid characters before saving to db.
+     *
+     * @param $model BlackChacal_Prometheus_Model_Extension
+     * @return mixed
+     */
+    public function escapeExtensionModel($model)
+    {
+        $validModel = $model;
+        $validModel->setNamespace($this->escapeStrings($model->getNamespace()));
+        $validModel->setName($this->escapeStrings($model->getName()));
+        $validModel->setVersion($this->escapeVersionStrings($model->getVersion()));
+        $validModel->setAuthorEmail(!Zend_Validate::is($model->getAuthorEmail(), 'EmailAddress') ? '' : $model->getAuthorEmail());
+        $validModel->setConfigNodeCode($this->escapeStrings($model->getConfigNodeCode()));
+        $validModel->setConfigTabName($this->escapeStrings($model->getConfigTabName()));
+        $validModel->setConfigTabLabel($this->escapeStrings($model->getConfigTabLabel()));
+        $validModel->setConfigTabPosition($this->escapeNumberStrings($model->getConfigTabPosition()));
+        $validModel->setConfigSectionName($this->escapeStrings($model->getConfigSectionName()));
+        $validModel->setConfigSectionLabel($this->escapeStrings($model->getConfigSectionLabel()));
+        $validModel->setAdminMenuName($this->escapeStrings($model->getAdminMenuName()));
+        $validModel->setAdminMenuTitle($this->escapeStrings($model->getAdminMenuTitle()));
+        $validModel->setAdminMenuAction($this->escapeStrings($model->getAdminMenuAction()));
+        $validModel->setAdminMenuPosition($this->escapeNumberStrings($model->getAdminMenuPosition()));
+
+        return $validModel;
+    }
 }

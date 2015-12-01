@@ -48,6 +48,25 @@ class BlackChacal_Prometheus_Adminhtml_PrometheusController extends Mage_Adminht
     }
 
     /**
+     * Initialize action
+     *
+     * Here, we set the breadcrumbs and the active menu.
+     *
+     * @return Mage_Adminhtml_Controller_Action
+     */
+    protected function _initAction()
+    {
+        $this->loadLayout()
+            // Make the active menu match the menu config nodes (without 'children' inbetween)
+            ->_setActiveMenu('system/blackchacal_prometheus')
+            ->_title($this->__('System'))->_title($this->__('Prometheus'))
+            ->_addBreadcrumb($this->__('System'), $this->__('System'))
+            ->_addBreadcrumb($this->__('Prometheus - Create Extensions'), $this->__('Prometheus - Create Extensions'));
+
+        return $this;
+    }
+
+    /**
      * Controller action for extension editing/creation.
      *
      * @return void
@@ -102,6 +121,7 @@ class BlackChacal_Prometheus_Adminhtml_PrometheusController extends Mage_Adminht
             if (isset($postData['id'])) {
                 $extensionModel->setExtensionId($postData['id']);
             }
+            $extensionModel = Mage::helper('blackchacal_prometheus')->escapeExtensionModel($extensionModel);
 
             try {
                 $extensionModel->save();
@@ -196,25 +216,6 @@ class BlackChacal_Prometheus_Adminhtml_PrometheusController extends Mage_Adminht
         }
 
         $this->_redirect('*/*/index');
-    }
-
-    /**
-     * Initialize action
-     *
-     * Here, we set the breadcrumbs and the active menu.
-     *
-     * @return Mage_Adminhtml_Controller_Action
-     */
-    protected function _initAction()
-    {
-        $this->loadLayout()
-            // Make the active menu match the menu config nodes (without 'children' inbetween)
-            ->_setActiveMenu('system/blackchacal_prometheus')
-            ->_title($this->__('System'))->_title($this->__('Prometheus'))
-            ->_addBreadcrumb($this->__('System'), $this->__('System'))
-            ->_addBreadcrumb($this->__('Prometheus - Create Extensions'), $this->__('Prometheus - Create Extensions'));
-
-        return $this;
     }
 
     /**

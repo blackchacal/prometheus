@@ -98,7 +98,7 @@ class BlackChacal_Prometheus_Block_Adminhtml_Prometheus_Edit_Tab_General extends
             'title'     => Mage::helper('blackchacal_prometheus')->__('Namespace'),
             'required'  => true,
             'value'     => ($model->getNamespace()) ? $model->getNamespace() :
-                            Mage::helper('blackchacal_prometheus')->getConfig('namespace')
+                Mage::helper('blackchacal_prometheus')->escapeStrings(Mage::helper('blackchacal_prometheus')->getConfig('namespace'))
         ));
         $infoFieldset->addField('name', 'text', array(
             'name'      => 'name',
