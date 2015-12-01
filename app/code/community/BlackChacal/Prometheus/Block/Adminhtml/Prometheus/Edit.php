@@ -33,6 +33,14 @@ class BlackChacal_Prometheus_Block_Adminhtml_Prometheus_Edit extends Mage_Adminh
         // Define edit page button labels
         $this->_updateButton('save', 'label', $this->__('Save Extension'));
         $this->_updateButton('delete', 'label', $this->__('Delete Extension'));
+
+        // Add "Save and Continue Edit" button to extension edit page.
+        $this->_addButton('saveandcontinue', array(
+            'label'     => Mage::helper('adminhtml')->__('Save And Continue Edit'),
+            'onclick'   => 'saveAndContinueEdit(\''.$this->getSaveAndContinueUrl().'\')',
+            'class'     => 'save',
+        ), 100);
+        $this->_formScripts[] = " function saveAndContinueEdit(url) { editForm.submit(url); }";
     }
 
     /**
@@ -48,5 +56,20 @@ class BlackChacal_Prometheus_Block_Adminhtml_Prometheus_Edit extends Mage_Adminh
         } else {
             return $this->__('New Extension');
         }
+    }
+
+    /**
+     * Returns the save and continue url for the button.
+     *
+     * @return string
+     */
+    public function getSaveAndContinueUrl()
+    {
+        return $this->getUrl('*/*/save', array(
+            '_current'   => true,
+            'back'       => 'edit',
+            'tab'        => 'blackchacal_prometheus_extension_info_tabs_general_section',
+            'active_tab' => null
+        ));
     }
 }

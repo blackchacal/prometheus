@@ -75,6 +75,7 @@ class BlackChacal_Prometheus_Adminhtml_PrometheusController extends Mage_Adminht
     {
         $this->_initAction();
 
+
         // Get id if available
         $id  = $this->getRequest()->getParam('id');
         $extensionModel = Mage::getModel('blackchacal_prometheus/extension');
@@ -147,9 +148,19 @@ class BlackChacal_Prometheus_Adminhtml_PrometheusController extends Mage_Adminht
                         break;
                 }
 
+                // Handle save and continue edit case.
+                if ($this->getRequest()->getParam('back')) {
+                    $this->_redirect(
+                        '*/*/edit',
+                        array(
+                            'id' => $extensionModel->getId(),
+                        )
+                    );
+                    return;
+                }
+
                 Mage::getSingleton('adminhtml/session')->addSuccess($this->__('The extension was saved.'));
                 $this->_redirect('*/*/');
-
                 return;
             } catch (Mage_Core_Exception $e) {
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
