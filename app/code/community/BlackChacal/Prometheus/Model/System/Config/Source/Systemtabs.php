@@ -34,32 +34,18 @@ class BlackChacal_Prometheus_Model_System_Config_Source_Systemtabs
     public function toOptionArray()
     {
         $helper = Mage::helper('blackchacal_prometheus');
-
+        $tabs = Mage::getSingleton('adminhtml/config')->getTabs();
         $options = array();
-        $options[] = array(
-            'value' => 'general',
-            'label' => $helper->__('General')
-        );
-        $options[] = array(
-            'value' => 'catalog',
-            'label' => $helper->__('Catalog')
-        );
-        $options[] = array(
-            'value' => 'customer',
-            'label' => $helper->__('Customers')
-        );
-        $options[] = array(
-            'value' => 'sales',
-            'label' => $helper->__('Sales')
-        );
-        $options[] = array(
-            'value' => 'service',
-            'label' => $helper->__('Services')
-        );
-        $options[] = array(
-            'value' => 'advanced',
-            'label' => $helper->__('Advanced')
-        );
+
+        foreach($tabs as $tabData) {
+
+            foreach($tabData as $tabCode => $tabInfo) {
+                $options[] = array(
+                    'value' => $tabCode,
+                    'label' => $helper->__((string)$tabInfo->label)
+                );
+            }
+        }
 
         return $options;
     }
