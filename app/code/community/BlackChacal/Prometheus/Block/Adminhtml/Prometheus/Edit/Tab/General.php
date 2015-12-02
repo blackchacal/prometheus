@@ -225,10 +225,12 @@ class BlackChacal_Prometheus_Block_Adminhtml_Prometheus_Edit_Tab_General extends
             'title'     => Mage::helper('blackchacal_prometheus')->__('Configuration Section Label')
         ));
 
-        $menuFieldset->addField('admin_menu_parent', 'text', array(
+        $menuFieldset->addField('admin_menu_parent', 'select', array(
             'name'      => 'admin_menu_parent',
             'label'     => Mage::helper('blackchacal_prometheus')->__('Admin Menu Parent'),
-            'title'     => Mage::helper('blackchacal_prometheus')->__('Admin Menu Parent')
+            'title'     => Mage::helper('blackchacal_prometheus')->__('Admin Menu Parent'),
+            'value'     => $model->getAdminMenuParent(),
+            'values'    => Mage::getModel('blackchacal_prometheus/system_config_source_systemmenu')->toOptionArray()
         ));
         $menuFieldset->addField('admin_menu_name', 'text', array(
             'name'      => 'admin_menu_name',
