@@ -29,6 +29,9 @@ Some aspects of Prometheus were inspired by the extension [Ultimate Module Creat
 
 - Filter user data on general settings tab
 - Get actual system tabs instead of hardcoded values
+- Add "Save and Continue Edit" button to extension edit page
+- Update system source model to return existent configuration tabs, instead of hardcoded
+- Add system source model to return top admin menu items
 
 ### v0.1.0
 
@@ -36,4 +39,4 @@ Some aspects of Prometheus were inspired by the extension [Ultimate Module Creat
 
 ## More Information
 
-You can visit the extension page on Magento Connect.
+You can visit the extension page on [Magento Connect](http://www.magentocommerce.com/magento-connect/prometheus-magento-extension-creator.html).
