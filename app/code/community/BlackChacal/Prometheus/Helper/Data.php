@@ -42,8 +42,8 @@ class BlackChacal_Prometheus_Helper_Data extends Mage_Core_Helper_Data
     /**
      * System configuration paths for "General" tab
      */
-    const XML_PATH_GENERAL_ACTIVE       = 'prometheus/general/enabled';
-    const XML_PATH_GENERAL_HELP         = 'prometheus/general/help';
+    const XML_PATH_GENERAL_ACTIVE       = 'blackchacal_prometheus/general/enabled';
+    const XML_PATH_GENERAL_HELP         = 'blackchacal_prometheus/general/help';
 
     /**
      * General constants
@@ -73,7 +73,7 @@ class BlackChacal_Prometheus_Helper_Data extends Mage_Core_Helper_Data
      */
     public function isPrometheusActive()
     {
-        return Mage::getStoreConfig(self::XML_PATH_GENERAL_ACTIVE);
+        return (bool)Mage::getStoreConfig(self::XML_PATH_GENERAL_ACTIVE);
     }
 
     /**
