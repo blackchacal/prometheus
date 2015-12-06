@@ -291,9 +291,11 @@ class BlackChacal_Prometheus_Block_Adminhtml_Prometheus_Edit_Tab_General extends
             ->addFieldMap('config_system_tab_name', 'config_system_tab_name')
             ->addFieldMap('config_tab_name', 'config_tab_name')
             ->addFieldMap('config_tab_label', 'config_tab_label')
+            ->addFieldMap('config_tab_position', 'config_tab_position')
             ->addFieldDependence('config_system_tab_name', 'config_tab_type', 'system')
             ->addFieldDependence('config_tab_name', 'config_tab_type', array('namespace', 'custom'))
             ->addFieldDependence('config_tab_label', 'config_tab_type', array('namespace', 'custom'))
+            ->addFieldDependence('config_tab_position', 'config_tab_type', array('namespace', 'custom'))
         );
 
         return $form;
