@@ -187,3 +187,6 @@ prometheus_files/
 !app/design/adminhtml/default/default/layout/blackchacal_prometheus.xml
 !app/code/community/BlackChacal
 !app/code/community/BlackChacal/*
+!skin/adminhtml/default/default/
+skin/adminhtml/default/default/*
+!skin/adminhtml/default/default/blackchacal_prometheus/

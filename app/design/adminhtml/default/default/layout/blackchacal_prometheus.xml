@@ -29,6 +29,9 @@
         </reference>
     </adminhtml_prometheus_index>
     <adminhtml_prometheus_edit>
+        <reference name="head">
+            <action method="addItem"><type>skin_js</type><name>blackchacal_prometheus/js/prometheus.js</name></action>
+        </reference>
         <reference name="left">
             <block type="blackchacal_prometheus/adminhtml_prometheus_edit_tabs" name="prometheus_edit_tabs">
                 <block type="blackchacal_prometheus/adminhtml_prometheus_edit_tab_general" name="prometheus_edit_tab_general" />

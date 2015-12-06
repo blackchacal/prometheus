@@ -70,20 +70,34 @@ class BlackChacal_Prometheus_Block_Adminhtml_Prometheus_Edit_Tab_General extends
             'method'    => 'post'
         ));
 
+        $form = $this->_prepareInfoFieldset($model, $form);
+        $form = $this->_prepareConfigFieldset($model, $form);
+        $form = $this->_prepareAdminMenuFieldset($model, $form);
+
+        $this->setForm($form);
+        /**
+         * If is "edit" page use model values. If is "new" page use default
+         * configuration data.
+         */
+        if ($this->getRequest()->getParam('id')) {
+            $form->setValues($model->getData());
+        }
+
+        return parent::_prepareForm();
+    }
+
+    /**
+     * Prepares the "Extension Information" fieldset.
+     *
+     * @param $model BlackChacal_Prometheus_Model_Extension
+     * @param $form Varien_Data_Form
+     */
+    private function _prepareInfoFieldset($model, $form)
+    {
         $infoFieldset = $form->addFieldset('base_fieldset', array(
             'legend'    => Mage::helper('blackchacal_prometheus')->__('Extension Information'),
             'class'     => 'fieldset-wide',
             'expanded'  => true,
-        ));
-        $configFieldset = $form->addFieldset('config_fieldset', array(
-            'legend'    => Mage::helper('blackchacal_prometheus')->__('Extension Configuration'),
-            'class'     => 'fieldset-wide',
-            'expanded'  => false,
-        ));
-        $menuFieldset = $form->addFieldset('menu_fieldset', array(
-            'legend'    => Mage::helper('blackchacal_prometheus')->__('Extension Admin Menu'),
-            'class'     => 'fieldset-wide',
-            'expanded'  => false,
         ));
 
         if ($model->getId()) {
@@ -92,6 +106,7 @@ class BlackChacal_Prometheus_Block_Adminhtml_Prometheus_Edit_Tab_General extends
             ));
         }
 
+        // Fields on "Extension Information" fieldset
         $infoFieldset->addField('namespace', 'text', array(
             'name'      => 'namespace',
             'label'     => Mage::helper('blackchacal_prometheus')->__('Namespace'),
@@ -113,7 +128,7 @@ class BlackChacal_Prometheus_Block_Adminhtml_Prometheus_Edit_Tab_General extends
             'title'     => Mage::helper('blackchacal_prometheus')->__('Code Pool'),
             'required'  => true,
             'value'     => ($model->getCodepool()) ? $model->getCodepool() :
-                            Mage::helper('blackchacal_prometheus')->getConfig('codepool'),
+                Mage::helper('blackchacal_prometheus')->getConfig('codepool'),
             'values'    => Mage::getModel('blackchacal_prometheus/system_config_source_codepool')->toOptionArray()
         ));
         $infoFieldset->addField('version', 'text', array(
@@ -122,7 +137,7 @@ class BlackChacal_Prometheus_Block_Adminhtml_Prometheus_Edit_Tab_General extends
             'title'     => Mage::helper('blackchacal_prometheus')->__('Version'),
             'required'  => true,
             'value'     => ($model->getVersion()) ? $model->getVersion() :
-                            Mage::helper('blackchacal_prometheus')->getConfig('version')
+                Mage::helper('blackchacal_prometheus')->getConfig('version')
         ));
         $infoFieldset->addField('license', 'textarea', array(
             'name'      => 'license',
@@ -130,7 +145,7 @@ class BlackChacal_Prometheus_Block_Adminhtml_Prometheus_Edit_Tab_General extends
             'title'     => Mage::helper('blackchacal_prometheus')->__('License'),
             'required'  => false,
             'value'     => ($model->getLicense()) ? $model->getLicense() :
-                            Mage::helper('blackchacal_prometheus')->getConfig('license')
+                Mage::helper('blackchacal_prometheus')->getConfig('license')
         ));
         $infoFieldset->addField('author_name', 'text', array(
             'name'      => 'author_name',
@@ -152,7 +167,7 @@ class BlackChacal_Prometheus_Block_Adminhtml_Prometheus_Edit_Tab_General extends
             'title'     => Mage::helper('blackchacal_prometheus')->__('Action'),
             'required'  => false,
             'value'     => ($model->getAction()) ? $model->getAction() :
-                            Mage::helper('blackchacal_prometheus')->getConfig('action'),
+                Mage::helper('blackchacal_prometheus')->getConfig('action'),
             'values'    => Mage::getModel('blackchacal_prometheus/system_config_source_action')->toOptionArray()
         ));
         $infoFieldset->addField('rewrite', 'select', array(
@@ -185,34 +200,78 @@ class BlackChacal_Prometheus_Block_Adminhtml_Prometheus_Edit_Tab_General extends
             ->addFieldDependence('rewrite', 'action', 'install')
         );
 
+        return $form;
+    }
+
+    /**
+     * Prepares the "Extension Configuration" fieldset.
+     *
+     * @param $model BlackChacal_Prometheus_Model_Extension
+     * @param $form Varien_Data_Form
+     */
+    private function _prepareConfigFieldset($model, $form)
+    {
+        $configFieldset = $form->addFieldset('config_fieldset', array(
+            'legend'    => Mage::helper('blackchacal_prometheus')->__('Extension Configuration'),
+            'class'     => 'fieldset-wide',
+            'expanded'  => false,
+        ));
+
+        // Fields on "Extension Configuration" fieldset
         $configFieldset->addField('config_tab_type', 'select', array(
             'name'      => 'config_tab_type',
             'label'     => Mage::helper('blackchacal_prometheus')->__('Configuration Tab Type'),
             'title'     => Mage::helper('blackchacal_prometheus')->__('Configuration Tab Type'),
             'value'     => ($model->getConfigTabType()) ? $model->getConfigTabType() :
-                Mage::helper('blackchacal_prometheus')->getConfig('config_tab'),
+                Mage::helper('blackchacal_prometheus')->getConfig('config_tab_type'),
             'values'    => Mage::getModel('blackchacal_prometheus/system_config_source_tabtypes')->toOptionArray()
         ));
         $configFieldset->addField('config_tab_name', 'text', array(
-            'name' => 'config_tab_name',
-            'label' => Mage::helper('blackchacal_prometheus')->__('Configuration Tab Name'),
-            'title' => Mage::helper('blackchacal_prometheus')->__('Configuration Tab Name'),
-            'value' => ($model->getConfigTabName()) ? $model->getConfigTabName() :
-                $this->getConfigTabName(Mage::helper('blackchacal_prometheus')->getConfig('config_tab'))
-        ));
+            'name'      => 'config_tab_name',
+            'label'     => Mage::helper('blackchacal_prometheus')->__('Configuration Tab Name'),
+            'title'     => Mage::helper('blackchacal_prometheus')->__('Configuration Tab Name'),
+            'value'     => ($model->getConfigTabName()) ? $model->getConfigTabName() :
+                $this->_getConfigTabName(Mage::helper('blackchacal_prometheus')->getConfig('config_tab_type'))
+        ))->setAfterElementHtml("<script type='text/javascript'>
+        //<![CDATA[
+            (function() {
+                var onloadName = '".$model->getConfigTabName()."',
+                    namespaceName = '".$this->_getConfigTabName('namespace')."',
+                    namespaceLabel = '".$this->_getConfigTabLabel('namespace')."',
+                    systemName = '".$this->_getConfigTabName('system')."',
+                    systemLabel = '".$this->_getConfigTabLabel('system')."';
+
+                setDefaultConfigTabName(onloadName, namespaceName, namespaceLabel, systemName, systemLabel);
+            })();
+        //]]>
+        </script>");
+        $configFieldset->addField('config_system_tab_name', 'select', array(
+            'name'      => 'config_tab_name',
+            'label'     => Mage::helper('blackchacal_prometheus')->__('Configuration Tab Name'),
+            'title'     => Mage::helper('blackchacal_prometheus')->__('Configuration Tab Name'),
+            'value'     => ($model->getConfigTabName()) ? $model->getConfigTabName() :
+                $this->_getConfigTabName(Mage::helper('blackchacal_prometheus')->getConfig('config_tab_type')),
+            'values'    => Mage::getModel('blackchacal_prometheus/system_config_source_systemtabs')->toOptionArray()
+        ))->setAfterElementHtml("<script type='text/javascript'>
+        //<![CDATA[
+            (function() {
+                setDefaultConfigSystemTabLabel();
+            })();
+        //]]>
+        </script>");
         $configFieldset->addField('config_tab_label', 'text', array(
             'name'      => 'config_tab_label',
             'label'     => Mage::helper('blackchacal_prometheus')->__('Configuration Tab Label'),
             'title'     => Mage::helper('blackchacal_prometheus')->__('Configuration Tab Label'),
             'value'     => ($model->getConfigTabLabel()) ? $model->getConfigTabLabel() :
-                $this->getConfigTabLabel(Mage::helper('blackchacal_prometheus')->getConfig('config_tab'))
+                $this->_getConfigTabLabel(Mage::helper('blackchacal_prometheus')->getConfig('config_tab_type'))
         ));
         $configFieldset->addField('config_tab_position', 'text', array(
             'name'      => 'config_tab_position',
             'label'     => Mage::helper('blackchacal_prometheus')->__('Configuration Tab Position'),
             'title'     => Mage::helper('blackchacal_prometheus')->__('Configuration Tab Position'),
             'value'     => ($model->getConfigTabPosition()) ? $model->getConfigTabPosition() :
-                $this->getConfigTabPositions(Mage::helper('blackchacal_prometheus')->getConfig('config_tab'))
+                $this->_getConfigTabPositions(Mage::helper('blackchacal_prometheus')->getConfig('config_tab_type'))
         ));
         $configFieldset->addField('config_section_name', 'text', array(
             'name'      => 'config_section_name',
@@ -225,6 +284,36 @@ class BlackChacal_Prometheus_Block_Adminhtml_Prometheus_Edit_Tab_General extends
             'title'     => Mage::helper('blackchacal_prometheus')->__('Configuration Section Label')
         ));
 
+        // Add fields dependencies
+        $this->setChild('form_after', $this->getLayout()
+            ->createBlock('adminhtml/widget_form_element_dependence')
+            ->addFieldMap('config_tab_type', 'config_tab_type')
+            ->addFieldMap('config_system_tab_name', 'config_system_tab_name')
+            ->addFieldMap('config_tab_name', 'config_tab_name')
+            ->addFieldMap('config_tab_label', 'config_tab_label')
+            ->addFieldDependence('config_system_tab_name', 'config_tab_type', 'system')
+            ->addFieldDependence('config_tab_name', 'config_tab_type', array('namespace', 'custom'))
+            ->addFieldDependence('config_tab_label', 'config_tab_type', array('namespace', 'custom'))
+        );
+
+        return $form;
+    }
+
+    /**
+     * Prepares the "Extension Admin Menu" fieldset.
+     *
+     * @param $model BlackChacal_Prometheus_Model_Extension
+     * @param $form Varien_Data_Form
+     */
+    private function _prepareAdminMenuFieldset($model, $form)
+    {
+        $menuFieldset = $form->addFieldset('menu_fieldset', array(
+            'legend'    => Mage::helper('blackchacal_prometheus')->__('Extension Admin Menu'),
+            'class'     => 'fieldset-wide',
+            'expanded'  => false,
+        ));
+
+        // Fields on "Extension Admin Menu" fieldset
         $menuFieldset->addField('admin_menu_parent', 'select', array(
             'name'      => 'admin_menu_parent',
             'label'     => Mage::helper('blackchacal_prometheus')->__('Admin Menu Parent'),
@@ -253,16 +342,7 @@ class BlackChacal_Prometheus_Block_Adminhtml_Prometheus_Edit_Tab_General extends
             'title'     => Mage::helper('blackchacal_prometheus')->__('Admin Menu Position')
         ));
 
-        $this->setForm($form);
-        /**
-         * If is "edit" page use model values. If is "new" page use default
-         * configuration data.
-         */
-        if ($this->getRequest()->getParam('id')) {
-            $form->setValues($model->getData());
-        }
-
-        return parent::_prepareForm();
+        return $form;
     }
 
     /**
@@ -271,7 +351,7 @@ class BlackChacal_Prometheus_Block_Adminhtml_Prometheus_Edit_Tab_General extends
      * @param $type string
      * @return string
      */
-    private function getConfigTabLabel($type)
+    private function _getConfigTabLabel($type)
     {
         switch ($type) {
             case 'namespace':
@@ -301,7 +381,7 @@ class BlackChacal_Prometheus_Block_Adminhtml_Prometheus_Edit_Tab_General extends
      * @param $type string
      * @return string
      */
-    private function getConfigTabName($type)
+    private function _getConfigTabName($type)
     {
         switch ($type) {
             case 'namespace':
@@ -331,7 +411,7 @@ class BlackChacal_Prometheus_Block_Adminhtml_Prometheus_Edit_Tab_General extends
      * @param $type string
      * @return string
      */
-    private function getConfigTabPositions($type)
+    private function _getConfigTabPositions($type)
     {
         switch ($type) {
             case 'namespace':
