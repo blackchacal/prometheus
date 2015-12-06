@@ -32,6 +32,7 @@ Some aspects of Prometheus were inspired by the extension [Ultimate Module Creat
 - Add "Save and Continue Edit" button to extension edit page
 - Update system source model to return existent configuration tabs, instead of hardcoded
 - Add system source model to return top admin menu items
+- Fix default configuration tab name selection on extension new/edit page.
 
 ### v0.1.0
 
