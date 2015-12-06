@@ -118,8 +118,8 @@
                             <show_in_website>0</show_in_website>
                             <show_in_store>0</show_in_store>
                         </license>
-                        <config_tab translate="label,comment" module="blackchacal_prometheus">
-                            <label>Configuration Tab Name</label>
+                        <config_tab_type translate="label,comment" module="blackchacal_prometheus">
+                            <label>Configuration Tab Type</label>
                             <comment><![CDATA[Name for the extension tab on the menu System -> Configuration.]]></comment>
                             <frontend_type>select</frontend_type>
                             <source_model>blackchacal_prometheus/system_config_source_tabtypes</source_model>
@@ -127,7 +127,7 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>0</show_in_website>
                             <show_in_store>0</show_in_store>
-                        </config_tab>
+                        </config_tab_type>
                         <config_tab_custom translate="label,comment" module="blackchacal_prometheus">
                             <label>Configuration Tab Name - Custom Name</label>
                             <comment><![CDATA[]]></comment>
@@ -137,7 +137,7 @@
                             <show_in_website>0</show_in_website>
                             <show_in_store>0</show_in_store>
                             <depends>
-                                <config_tab>custom</config_tab>
+                                <config_tab_type>custom</config_tab_type>
                             </depends>
                         </config_tab_custom>
                         <config_tab_system translate="label,comment" module="blackchacal_prometheus">
@@ -150,7 +150,7 @@
                             <show_in_website>0</show_in_website>
                             <show_in_store>0</show_in_store>
                             <depends>
-                                <config_tab>system</config_tab>
+                                <config_tab_type>system</config_tab_type>
                             </depends>
                         </config_tab_system>
                         <config_tab_namespace_position translate="label,comment" module="blackchacal_prometheus">
@@ -162,7 +162,7 @@
                             <show_in_website>0</show_in_website>
                             <show_in_store>0</show_in_store>
                             <depends>
-                                <config_tab>namespace</config_tab>
+                                <config_tab_type>namespace</config_tab_type>
                             </depends>
                         </config_tab_namespace_position>
                         <config_tab_custom_position translate="label,comment" module="blackchacal_prometheus">
@@ -174,7 +174,7 @@
                             <show_in_website>0</show_in_website>
                             <show_in_store>0</show_in_store>
                             <depends>
-                                <config_tab>custom</config_tab>
+                                <config_tab_type>custom</config_tab_type>
                             </depends>
                         </config_tab_custom_position>
                     </fields>
