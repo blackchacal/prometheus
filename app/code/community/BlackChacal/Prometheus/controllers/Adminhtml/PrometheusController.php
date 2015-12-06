@@ -30,9 +30,13 @@ class BlackChacal_Prometheus_Adminhtml_PrometheusController extends Mage_Adminht
      */
     public function indexAction()
     {
-        // Let's call our initAction method which will set some basic params for each action
-        $this->_initAction();
-        $this->renderLayout();
+        if (!Mage::helper('blackchacal_prometheus')->isPrometheusActive()) {
+            $this->_redirect('adminhtml/dashboard/index');
+        } else {
+            // Let's call our initAction method which will set some basic params for each action
+            $this->_initAction();
+            $this->renderLayout();
+        }
     }
 
     /**
@@ -73,39 +77,42 @@ class BlackChacal_Prometheus_Adminhtml_PrometheusController extends Mage_Adminht
      */
     public function editAction()
     {
-        $this->_initAction();
+        if (!Mage::helper('blackchacal_prometheus')->isPrometheusActive()) {
+            $this->_redirect('adminhtml/dashboard/index');
+        } else {
+            $this->_initAction();
 
+            // Get id if available
+            $id  = $this->getRequest()->getParam('id');
+            $extensionModel = Mage::getModel('blackchacal_prometheus/extension');
 
-        // Get id if available
-        $id  = $this->getRequest()->getParam('id');
-        $extensionModel = Mage::getModel('blackchacal_prometheus/extension');
+            if ($id) {
+                // Load record
+                $extensionModel->load($id);
 
-        if ($id) {
-            // Load record
-            $extensionModel->load($id);
+                // Check if record is loaded
+                if (!$extensionModel->getExtensionId()) {
+                    Mage::getSingleton('adminhtml/session')->addError($this->__('This extension no longer exists.'));
+                    $this->_redirect('*/*/');
 
-            // Check if record is loaded
-            if (!$extensionModel->getExtensionId()) {
-                Mage::getSingleton('adminhtml/session')->addError($this->__('This extension no longer exists.'));
-                $this->_redirect('*/*/');
-
-                return;
+                    return;
+                }
             }
+
+            $this->_title($extensionModel->getExtensionId() ? $extensionModel->getName() : $this->__('New Extension'));
+
+            $data = Mage::getSingleton('adminhtml/session')->getExtensionData(true);
+            if (!empty($data)) {
+                $extensionModel->setData($data);
+            }
+
+            Mage::register('blackchacal_prometheus', $extensionModel);
+
+            $this->_initAction()
+                ->_addBreadcrumb($id ? $this->__('Edit Extension') : $this->__('New Extension'), $id ? $this->__('Edit Extension') : $this->__('New Extension'))
+                ->_addContent($this->getLayout()->createBlock('blackchacal_prometheus/adminhtml_prometheus_edit')->setData('action', $this->getUrl('*/*/save')))
+                ->renderLayout();
         }
-
-        $this->_title($extensionModel->getExtensionId() ? $extensionModel->getName() : $this->__('New Extension'));
-
-        $data = Mage::getSingleton('adminhtml/session')->getExtensionData(true);
-        if (!empty($data)) {
-            $extensionModel->setData($data);
-        }
-
-        Mage::register('blackchacal_prometheus', $extensionModel);
-
-        $this->_initAction()
-            ->_addBreadcrumb($id ? $this->__('Edit Extension') : $this->__('New Extension'), $id ? $this->__('Edit Extension') : $this->__('New Extension'))
-            ->_addContent($this->getLayout()->createBlock('blackchacal_prometheus/adminhtml_prometheus_edit')->setData('action', $this->getUrl('*/*/save')))
-            ->renderLayout();
     }
 
     /**
@@ -116,60 +123,64 @@ class BlackChacal_Prometheus_Adminhtml_PrometheusController extends Mage_Adminht
      */
     public function saveAction()
     {
-        if ($postData = $this->getRequest()->getPost()) {
-            $extensionModel = Mage::getSingleton('blackchacal_prometheus/extension');
-            $extensionModel->setData($postData);
-            if (isset($postData['id'])) {
-                $extensionModel->setExtensionId($postData['id']);
-            }
-            $extensionModel = Mage::helper('blackchacal_prometheus')->escapeExtensionModel($extensionModel);
-
-            try {
-                $extensionModel->save();
-
-                switch ($postData['action']) {
-                    case 'package':
-                        break;
-                    case 'install':
-                        $installed = $extensionModel->install();
-                        if ($installed) {
-                            $extensionModel->setInstalled(true);
-                            $extensionModel->save();
-                        }
-                        break;
-                    case 'uninstall':
-                        $uninstalled = $extensionModel->uninstall();
-                        if ($uninstalled) {
-                            $extensionModel->setInstalled(false);
-                            $extensionModel->save();
-                        }
-                        break;
-                    default:
-                        break;
+        if (!Mage::helper('blackchacal_prometheus')->isPrometheusActive()) {
+            $this->_redirect('adminhtml/dashboard/index');
+        } else {
+            if ($postData = $this->getRequest()->getPost()) {
+                $extensionModel = Mage::getSingleton('blackchacal_prometheus/extension');
+                $extensionModel->setData($postData);
+                if (isset($postData['id'])) {
+                    $extensionModel->setExtensionId($postData['id']);
                 }
+                $extensionModel = Mage::helper('blackchacal_prometheus')->escapeExtensionModel($extensionModel);
 
-                // Handle save and continue edit case.
-                if ($this->getRequest()->getParam('back')) {
-                    $this->_redirect(
-                        '*/*/edit',
-                        array(
-                            'id' => $extensionModel->getId(),
-                        )
-                    );
+                try {
+                    $extensionModel->save();
+
+                    switch ($postData['action']) {
+                        case 'package':
+                            break;
+                        case 'install':
+                            $installed = $extensionModel->install();
+                            if ($installed) {
+                                $extensionModel->setInstalled(true);
+                                $extensionModel->save();
+                            }
+                            break;
+                        case 'uninstall':
+                            $uninstalled = $extensionModel->uninstall();
+                            if ($uninstalled) {
+                                $extensionModel->setInstalled(false);
+                                $extensionModel->save();
+                            }
+                            break;
+                        default:
+                            break;
+                    }
+
+                    // Handle save and continue edit case.
+                    if ($this->getRequest()->getParam('back')) {
+                        $this->_redirect(
+                            '*/*/edit',
+                            array(
+                                'id' => $extensionModel->getId(),
+                            )
+                        );
+                        return;
+                    }
+
+                    Mage::getSingleton('adminhtml/session')->addSuccess($this->__('The extension was saved.'));
+                    $this->_redirect('*/*/');
                     return;
+                } catch (Mage_Core_Exception $e) {
+                    Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+                } catch (Exception $e) {
+                    Mage::getSingleton('adminhtml/session')->addError($this->__('An error occurred while saving this extension.'));
                 }
 
-                Mage::getSingleton('adminhtml/session')->addSuccess($this->__('The extension was saved.'));
-                $this->_redirect('*/*/');
-                return;
-            } catch (Mage_Core_Exception $e) {
-                Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
-            } catch (Exception $e) {
-                Mage::getSingleton('adminhtml/session')->addError($this->__('An error occurred while saving this extension.'));
+                Mage::getSingleton('adminhtml/session')->setExtensionData($postData);
+                $this->_redirectReferer();
             }
-
-            Mage::getSingleton('adminhtml/session')->setExtensionData($postData);
-            $this->_redirectReferer();
         }
     }
 
@@ -181,23 +192,27 @@ class BlackChacal_Prometheus_Adminhtml_PrometheusController extends Mage_Adminht
      */
     public function deleteAction()
     {
-        // Get id if available
-        $id  = $this->getRequest()->getParam('id');
+        if (!Mage::helper('blackchacal_prometheus')->isPrometheusActive()) {
+            $this->_redirect('adminhtml/dashboard/index');
+        } else {
+            // Get id if available
+            $id  = $this->getRequest()->getParam('id');
 
-        if ($id) {
-            try {
-                // Delete record
-                $extensionModel = Mage::getModel('blackchacal_prometheus/extension');
-                $extensionModel->load($id)->delete();
-                $extensionModel->uninstall();
+            if ($id) {
+                try {
+                    // Delete record
+                    $extensionModel = Mage::getModel('blackchacal_prometheus/extension');
+                    $extensionModel->load($id)->delete();
+                    $extensionModel->uninstall();
 
-                Mage::getSingleton('adminhtml/session')->addSuccess($this->__('The extension was deleted.'));
-            } catch (Exception $e) {
-                Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+                    Mage::getSingleton('adminhtml/session')->addSuccess($this->__('The extension was deleted.'));
+                } catch (Exception $e) {
+                    Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+                }
             }
-        }
 
-        $this->_redirect('*/*/index');
+            $this->_redirect('*/*/index');
+        }
     }
 
     /**
@@ -207,26 +222,30 @@ class BlackChacal_Prometheus_Adminhtml_PrometheusController extends Mage_Adminht
      */
     public function massDeleteAction()
     {
-        $extensionIds = $this->getRequest()->getParam('extensions');
-
-        if (!is_array($extensionIds)) {
-            Mage::getSingleton('adminhtml/session')->addError($this->__('Please select extension(s).'));
+        if (!Mage::helper('blackchacal_prometheus')->isPrometheusActive()) {
+            $this->_redirect('adminhtml/dashboard/index');
         } else {
-            try {
-                $extensionModel = Mage::getModel('blackchacal_prometheus/extension');
+            $extensionIds = $this->getRequest()->getParam('extensions');
 
-                foreach ($extensionIds as $extensionId) {
-                    $extensionModel->load($extensionId)->delete();
-                    $extensionModel->uninstall();
+            if (!is_array($extensionIds)) {
+                Mage::getSingleton('adminhtml/session')->addError($this->__('Please select extension(s).'));
+            } else {
+                try {
+                    $extensionModel = Mage::getModel('blackchacal_prometheus/extension');
+
+                    foreach ($extensionIds as $extensionId) {
+                        $extensionModel->load($extensionId)->delete();
+                        $extensionModel->uninstall();
+                    }
+
+                    Mage::getSingleton('adminhtml/session')->addSuccess($this->__('Total of %d record(s) were deleted.', count($extensionIds)));
+                } catch (Exception $e) {
+                    Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
                 }
-
-                Mage::getSingleton('adminhtml/session')->addSuccess($this->__('Total of %d record(s) were deleted.', count($extensionIds)));
-            } catch (Exception $e) {
-                Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
             }
-        }
 
-        $this->_redirect('*/*/index');
+            $this->_redirect('*/*/index');
+        }
     }
 
     /**
