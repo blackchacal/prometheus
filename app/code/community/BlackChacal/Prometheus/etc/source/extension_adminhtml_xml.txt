@@ -19,7 +19,7 @@
         <resources>
             <admin>
                 <children>
-                    {{@if (admin_menu_parent != 'system') }}
+                    {{@if (admin_menu_name != '' && admin_menu_parent != 'system') }}
                     <{{Admin_Menu_Parent}}>
                         <children>
                             <{{Admin_Menu_Name}} translate="title" module="{{Config_Node_Code}}">
